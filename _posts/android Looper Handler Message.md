@@ -1,3 +1,11 @@
+##进程/线程同步简介：
+由于系统资源是有限的，所以n个进程同时请求只有m个的资源，当n > m时，就会出现竞争。而当两个进程或线程合作去完成一项工作，进度不一样时，就要出现等待条件满足的时候，就会出现同步的需要。这就是进程线程同步的概念。
+
+解决同步互斥，通常包括以下方法：
+
+* 信号量与PV操作
+* 管程（Monitor）
+
 ##Handler
 
 >A Handler allows you to send and process Message and Runnable objects associated with a thread's MessageQueue. Each Handler instance is associated with a single thread and that thread's message queue. When you create a new Handler, it is bound to the thread / message queue of the thread that is creating it -- from that point on, it will deliver messages and runnables to that message queue and execute them as they come out of the message queue.
@@ -185,8 +193,30 @@ ThreadLocal这个类是关键，看看
 
 怎样方便呢？
 
-考虑线程A中创建线程B发消息，B向A发消息；
-A中：
+	private static class myHandlerThread extends HandlerThread{
+		private Handler myHandler;
+		public myHandlerThread(String name) {
+			super(name);
+		}
+		
+		public Handler getHandler(){
+			return myHandler;
+		}
+
+		@Override
+		public synchronized void start() {
+			super.start();
+			Looper looper = getLooper();//这一句会阻塞到Looper对象初始化结束，就可以确保strat后调用getHandler不会返回null
+			myHandler = new Handler(looper){
+				@Override
+				public void handleMessage(Message msg) {
+					//处理消息
+				}
+			};
+		}
+	}
+
+就是注释的那一句
 
 
 上面讲了好多，其实总结原理是很简单的。首先，我们要明白，Handler，Looper，Message，MessageQueue这个机制是为主线程（UI线程建立的），为什么？因为UI线程是一个基于消息机制的线程。就是有消息来的时候，就执行，没消息来的时候，就阻塞。android屏幕的Touch，其他事件的发生，都是通过HAL通知window，window的ViewRoot通过消息机制通知UI线程的。那么基于消息的线程怎样设计？我们不结合android源码，就最一般的java代码简单实现一下
