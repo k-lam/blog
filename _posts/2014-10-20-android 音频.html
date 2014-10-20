@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>android 音频</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h3>数字音频基础</h3>
+
+<p><a href="http://wenku.baidu.com/view/03c9370790c69ec3d5bb7572.html">http://wenku.baidu.com/view/03c9370790c69ec3d5bb7572.html</a></p>
+
+<p>振荡产生声音振幅决定音量，频率决定音调。模拟信号到数字信号的转换是通过A/D来转换的。其中采样率就是每秒钟采样的次数，越高越真实，当然越高，文件大小越大。不过这样采样，肯定就是离散的点了。为了有更加直接的感受，直接上代码！(如果有matlab就好了！！！)</p>
+
+<pre><code>public class test1 extends Activity implements OnClickListener {
+
+volatile boolean playing = false;
+final static int SAMPLE_RATE = 11025;//采样频率
+int minSize = 0;
+AudioTrack audioTrack;//播放类
+float frequency = 220;//震动频率
+float angular_frequency = (float)(2 * Math.PI) * frequency / SAMPLE_RATE;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.test);
+    minSize = AudioTrack.getMinBufferSize(SAMPLE_RATE,
+            AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
+    audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE,
+            AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
+            minSize, AudioTrack.MODE_STREAM);
+    findViewById(R.id.btn_play).setOnClickListener(this);
+    findViewById(R.id.btn_play2).setOnClickListener(this);
+}
+int a = 1;
+@Override
+public void onClick(View v) {
+    switch (v.getId()) {
+    case R.id.btn_play:
+        playing = true;
+        Task.callInBackground(new Callable&lt;Void&gt;() {
+
+            @Override
+            public Void call() throws Exception {
+                audioTrack.play();
+                short[] buffer = new short[minSize];
+                float angle = 0;
+                //while (playing) {
+                    for(int i = 0; i &lt; buffer.length;i++){
+                        //可以看到，a越大，振幅变小，声音会变小，
+                        buffer[i] = (short)(Short.MAX_VALUE * ((float)Math.sin(angle)) / a);
+                        angle += angular_frequency;
+                    }
+                    audioTrack.write(buffer, 0, buffer.length);
+                //}
+                return null;
+            }
+        });
+        break;
+    case R.id.btn_play2:
+        playing = false;
+        audioTrack.stop();
+        a += 2;
+        break;
+    default:
+        break;
+    }
+}
+}
+</code></pre>
+
+<p>pcm大小计算 采样率<em>采样时间</em>采样位深/8*通道数
+采样率通常会用：44100, 22050 and 11025.</p>
+
+<h3>android里的音频 类应用</h3>
+
+<p>参考《android多媒体开发 高级编程》</p>
+
+<h5><a href="http://developer.android.com/reference/android/media/MediaPlayer.html">MediaPlayer</a></h5>
+
+<p>简单播放单个.mp3 .wav文件,可以设置音效。视频也可以播放</p>
+
+<pre><code>MediaPlayer mediaPlayer = MediaPlayer.create(test.this, R.raw.bell);
+mediaPlayer.setOnPreparedListener(new OnPreparedListener() {
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        mediaPlayer.start();
+    }
+});
+</code></pre>
+
+<h5><a href="http://developer.android.com/reference/android/media/MediaRecorder.html">MediaRecorder</a></h5>
+
+<p>录制音频成为wav mp3这样的encoded的文件，视频也可以。</p>
+
+<h5><a href="http://developer.android.com/reference/android/media/AudioRecord.html">AudioRecord</a></h5>
+
+<p>录制音频，二进制格式的</p>
+
+<h5><a href="http://developer.android.com/reference/android/media/AudioTrack.html">AudioTrack</a></h5>
+
+<p>The AudioTrack class manages and plays a single audio resource for Java applications. It allows streaming of PCM audio buffers to the audio sink for playback.</p>
+
+<p>也就是说，要对二进制数据进行修改，然后播放的，用这个类。</p>
+
+<h5><a href="http://developer.android.com/reference/android/media/SoundPool.html">SoundPool</a></h5>
+
+<p>SoundPool是为了播放很多不同声音的场景的，如游戏。SoundPool可以load很多不同的音频，从pool可以看出，是作了缓存处理的。</p>
+
+<pre><code>void initMusic(){
+    soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+    Task.callInBackground(new Callable&lt;Void&gt;() {
+        @Override
+        public Void call() throws Exception {
+            String[] fileList = null;
+            try {
+                fileList = getAssets().list(SUBDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int i = 0;
+            try {
+                for(String file : fileList){
+                    Log.i("debug", file);
+                        mSoundIds[i++] = soundPool.load(getAssets().openFd(SUBDir + "/"+file), 1);
+                        //soundPool.setOnLoadCompleteListener(completeListener);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("debug", e.getMessage());
+            }
+            return null;
+        }
+    }).continueWith(new Continuation&lt;Void, Void&gt;() {
+        @Override
+        public Void then(Task&lt;Void&gt; voidTask) throws Exception {
+            soundPool.play(mSoundIds[id],0.4f,0.4f,1,0,2.0f);
+            return null;
+        }
+    });
+}
+</code></pre>
+
+<p>我们会注意到一个问题，for循环来load文件，如果文件很多，速度回变得很慢。但多线程好像有不适用，因为猜想主要都是争抢系统总线来传输数据。所以通过代码尝试验证</p>
+
+<p>验证过程：</p>
+
+<p>用N条线程加载88个音频，如N = 2，两个线程加载，线程1加载0-43，线程2加载44-87</p>
+
+<p>通过多次测试，用多线程的方法没有改善到加载速度。</p>
+
+<p><code>注：load函数是native实现，暂时还没找到源码。猜想是包括硬盘读入，decode成pcm这两个耗时操作，而decode操作会不会由声卡或DSPs来做？</code></p>
+
+<h5><a href="http://developer.android.com/reference/android/media/audiofx/AudioEffect.html">AudioEffect</a></h5>
+
+<p>音效类，据说是根据OpenSL es来的</p>
+
+<pre><code>EnvironmentalReverb  eReverb 
+= new EnvironmentalReverb(0,mediaPlayer.getAudioSessionId());
+eReverb.setEnabled(true);
+eReverb.setDecayHFRatio((short) 1000);
+eReverb.setDecayTime(10000);
+eReverb.setDensity((short) 1000);
+eReverb.setDiffusion((short) 1000);
+eReverb.setReverbLevel((short) -1000);
+mediaPlayer.setAuxEffectSendLevel(1.0f);
+</code></pre>
+
+<h3>NDK</h3>
+
+<h5>irrKlang</h5>
+
+<p>第三方音频库，优秀的有irrKlang，但是android用不了
+因为irrKlang发布成已经编译的.so,而他是通过GNC gcc编译的。
+android的c library是自己的BIONIC，需要通过android的c编译器编译的代码，才能在andorid上运行。所以irrKlang不能用在android上。</p>
+
+<p><code>引申：能在linux上跑的c程序，不一定能在android上面跑，因为c library的不同，就算有源码，通过android的编译工具编译，都不一定能在android上跑</code></p>
+
+<h5>OpenSL es</h5>
+
+<p>这个library，已经内嵌在android系统中，其中还有openMax，两个的区别可以看ndk docs</p>
+
+<p>OpenSL es google给出了官方例子在<ndk>/samples/native-audio中。但是例子有点难懂，特别是使用每个方法，对象都要</p>
+
+<pre><code>slCreateEngine( &amp;engine_obj, 0, nullptr, 0, nullptr, nullptr );
+(*engine_obj)-&gt;Realize( engine_obj, SL_BOOLEAN_FALSE );
+(*engine_obj)-&gt;GetInterface( engine_obj, SL_IID_ENGINE, &amp;engine );
+</code></pre>
+
+<p>像这样操作，想想也是醉了！！！！！听说是COM风格的
+这个原因可以参考<a href="http://vec3.ca/getting-started-with-opensl-on-android/">http://vec3.ca/getting-started-with-opensl-on-android/</a></p>
+
+<p>openSL es部分待续</p>
+
+<h3>高级课题</h3>
+
+<p>数字化的音频是离散的周期函数，可以用DFT(离散傅里叶转换)来分析。raw的音频是基于时间的数据，可以通过FFT（快速傅里叶转换）来变成基于频率的数据。www.netlib.org/fftpack/这个网站提供了各种FFT实现，包括java的方法</p>
+
+<h4>to be continued...</h4>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
