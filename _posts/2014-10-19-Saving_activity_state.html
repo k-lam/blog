@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2014-10-19-Saving_activity_state</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1><a href="http://developer.android.com/guide/components/activities.html#SavingActivityState">Saving Activity State</a></h1>
+
+<h2>Brief</h2>
+
+<p>为什么会有？因为Activity处于onPause，onStop，onDestroy都可能由于系统内存紧张而被回收，但是这个对用户来说是透明的，如果用户回到这个Activity，发现之前的交互都没有了，这样的用户体验就不好。所以我们的程序需要保持这些可能被回收的状态，如果Activity被回收，当用户再次打开这个Activity时，能恢复用户之前看到的界面。</p>
+
+<p>在Activity中，The system calls onSaveInstanceState() before making the activity vulnerable to destruction.
+所以，在onSaveInstanceState()这个方法中进行保存操作。</p>
+
+<p>the system recreates the activity and passes the Bundle to both onCreate() and onRestoreInstanceState()</p>
+
+<p>在onCreate()和onRestoreInstanceState()中恢复</p>
+
+<p><code>Activity State：交互界面的状态，譬如输入了什么内容，列表下拉到了哪里。</code></p>
+
+<h2>SaveInstanceState</h2>
+
+<h4>Activity.onSaveInstanceState</h4>
+
+<pre><code>protected void onSaveInstanceState(Bundle outState) {
+    outState.putBundle(WINDOW_HIERARCHY_TAG, mWindow.saveHierarchyState());
+    Parcelable p = mFragments.saveAllState();
+    if (p != null) {
+        outState.putParcelable(FRAGMENTS_TAG, p);
+    }
+    //这句不用理，是给用户用的回调，不是系统用的
+    getApplication().dispatchActivitySaveInstanceState(this, outState);
+}
+</code></pre>
+
+<p>可以看到，分成Fragment和Window的saveState。</p>
+
+<p>Fragment的SaveState内容蛮多的，除了各个Fragment的save，还有FragmentManagement的save state。留待以后分析。</p>
+
+<p>mWindow是Window类型，手机的实现类型是PhoneWindow</p>
+
+<h4>PhoneWindowsaveHierarchyState</h4>
+
+<pre><code>static final String FRAGMENTS_TAG = "android:fragments";
+.
+.
+.
+static private final String FOCUSED_ID_TAG = "android:focusedViewId";
+static private final String VIEWS_TAG = "android:views";
+static private final String PANELS_TAG = "android:Panels";
+static private final String ACTION_BAR_TAG = "android:ActionBar";
+public Bundle saveHierarchyState() {
+    Bundle outState = new Bundle();
+    if (mContentParent == null) {
+        return outState;
+    }
+
+    //save the view
+    SparseArray&lt;Parcelable&gt; states = new SparseArray&lt;Parcelable&gt;();
+    mContentParent.saveHierarchyState(states);
+    outState.putSparseParcelableArray(VIEWS_TAG, states);
+
+    // save the focused view id
+    View focusedView = mContentParent.findFocus();
+    if (focusedView != null) {
+        if (focusedView.getId() != View.NO_ID) {
+            outState.putInt(FOCUSED_ID_TAG, focusedView.getId());
+        } else {
+            if (false) {
+                Log.d(TAG, "couldn't save which view has focus because the focused view "
+                        + focusedView + " has no id.");
+            }
+        }
+    }
+
+    // save the panels
+    SparseArray&lt;Parcelable&gt; panelStates = new SparseArray&lt;Parcelable&gt;();
+    savePanelState(panelStates);
+    if (panelStates.size() &gt; 0) {
+        outState.putSparseParcelableArray(PANELS_TAG, panelStates);
+    }
+
+    if (mActionBar != null) {
+        SparseArray&lt;Parcelable&gt; actionBarStates = new SparseArray&lt;Parcelable&gt;();
+        mActionBar.saveHierarchyState(actionBarStates);
+        outState.putSparseParcelableArray(ACTION_BAR_TAG, actionBarStates);
+    }
+
+    return outState;
+}
+</code></pre>
+
+<p>可以看到，保存view、focused view id、panels和ActionBar。
+而加上之前的Fragment的保存，可以很清楚看到Bundle最高层键值格式：</p>
+
+<p><code>android:fragments</code>:value</p>
+
+<p><code>android:focusedViewId</code>:value</p>
+
+<p><code>android:views</code>:value</p>
+
+<p><code>android:Panels</code>:value</p>
+
+<p><code>android:ActionBar</code>:value</p>
+
+<h3>View的saveInstance</h3>
+
+<p>mContentParent.saveHierarchyState其实是调用了View.saveHierarchyState->dispatchSaveInstanceState...等等，不对。mContentParent从名字看就知道不是一般的ViewGroup。于是看看mContentParent这个的定义。</p>
+
+<pre><code>// This is the view in which the window contents are placed. It is either
+// mDecor itself, or a child of mDecor where the contents go.
+private ViewGroup mContentParent;
+</code></pre>
+
+<p>嗯，mDecor itself,or a child of mDecor wher the contents go.这样，我们就应该看看DecorView，FrameLayout（几大布局选这个而已，当然可以挑其他的研究），ViewGroup，View的saveHierarchyState。
+通过对View-ViewGroup—FrameLayout—DectView这个家族的检查，只在ViewGroup中继承了dispatchSaveInstanceState。！！！</p>
+
+<h4>ViewGroup.dispatchSaveInstanceState</h4>
+
+<pre><code>@Override
+protected void dispatchSaveInstanceState(SparseArray&lt;Parcelable&gt; container) {
+    super.dispatchSaveInstanceState(container);
+    final int count = mChildrenCount;
+    final View[] children = mChildren;
+    for (int i = 0; i &lt; count; i++) {
+        View c = children[i];
+        if ((c.mViewFlags &amp; PARENT_SAVE_DISABLED_MASK) != PARENT_SAVE_DISABLED) {
+            c.dispatchSaveInstanceState(container);
+        }
+    }
+}
+</code></pre>
+
+<p>这里就很明显了，调用children（View）的dispatchSaveInstanceState。</p>
+
+<h4>View.dispatchSaveInstanceState</h4>
+
+<pre><code>protected void dispatchSaveInstanceState(SparseArray&lt;Parcelable&gt; container) {
+    if (mID != NO_ID &amp;&amp; (mViewFlags &amp; SAVE_DISABLED_MASK) == 0) {
+        mPrivateFlags &amp;= ~PFLAG_SAVE_STATE_CALLED;
+        Parcelable state = onSaveInstanceState();
+        if ((mPrivateFlags &amp; PFLAG_SAVE_STATE_CALLED) == 0) {
+            throw new IllegalStateException(
+                    "Derived class did not call super.onSaveInstanceState()");
+        }
+        if (state != null) {
+            // Log.i("View", "Freezing #" + Integer.toHexString(mID)
+            // + ": " + state);
+            container.put(mID, state);
+        }
+    }
+}
+</code></pre>
+
+<p>嗯，应了官网说的，没有android:id的不会save，if中 mID != NO_ID可以看出来</p>
+
+<h4>View.onSaveInstanceState</h4>
+
+<pre><code>protected Parcelable onSaveInstanceState() {
+    mPrivateFlags |= PFLAG_SAVE_STATE_CALLED;
+    return BaseSavedState.EMPTY_STATE;
+}
+</code></pre>
+
+<p>EMPTY_STATE,也就是说，各个View要自己Override onSaveInstanceState，决定保存什么内容了。</p>
+
+<h3>Panel</h3>
+
+<h5>PhoneWindow.savePanelState()</h5>
+
+<pre><code>private void savePanelState(SparseArray&lt;Parcelable&gt; icicles) {
+    PanelFeatureState[] panels = mPanels;
+    if (panels == null) {
+        return;
+    }
+
+    for (int curFeatureId = panels.length - 1; curFeatureId &gt;= 0; curFeatureId--) {
+        if (panels[curFeatureId] != null) {
+            icicles.put(curFeatureId, panels[curFeatureId].onSaveInstanceState());
+        }
+    }
+}
+</code></pre>
+
+<p><code>由于暂时不知道panel是什么，所以这部分to be continued...</code></p>
+
+<h3>ActionBar</h3>
+
+<p>ActionBar兜兜转转，最后其实还是调用ViewGroup的dispatchSaveInstanceState,参考上文吧</p>
+
+<h2>RestoreInstanceState</h2>
+
+<p>restore在Activity中有两个入口<code>onCreate</code>和<code>onRestoreInstanceState</code></p>
+
+<h3>onCreate</h3>
+
+<pre><code>protected void onCreate(Bundle savedInstanceState) {
+    ......
+    if (savedInstanceState != null) {
+        Parcelable p = savedInstanceState.getParcelable(FRAGMENTS_TAG);
+        mFragments.restoreAllState(p, mLastNonConfigurationInstances != null
+                ? mLastNonConfigurationInstances.fragments : null);
+    }
+    ......
+}
+</code></pre>
+
+<p>可以看到，onCreate中主要是恢复Fragment的State的，Fragment的内容后续讨论。</p>
+
+<h3>onRestoreInstanceState</h3>
+
+<pre><code>protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    if (mWindow != null) {
+        Bundle windowState = savedInstanceState.getBundle(WINDOW_HIERARCHY_TAG);
+        if (windowState != null) {
+            mWindow.restoreHierarchyState(windowState);
+        }
+    }
+}
+</code></pre>
+
+<p>mWindowState如果是手机，就是PhoneWindow类型</p>
+
+<h4>PhoneWindow.restoreHierarchyState</h4>
+
+<pre><code>public void restoreHierarchyState(Bundle savedInstanceState) {
+    if (mContentParent == null) {
+        return;
+    }
+
+    SparseArray&lt;Parcelable&gt; savedStates
+            = savedInstanceState.getSparseParcelableArray(VIEWS_TAG);
+    if (savedStates != null) {
+        mContentParent.restoreHierarchyState(savedStates);
+    }
+
+    // restore the focused view
+    int focusedViewId = savedInstanceState.getInt(FOCUSED_ID_TAG, View.NO_ID);
+    if (focusedViewId != View.NO_ID) {
+        View needsFocus = mContentParent.findViewById(focusedViewId);
+        if (needsFocus != null) {
+            needsFocus.requestFocus();
+        } else {
+            Log.w(TAG,
+                    "Previously focused view reported id " + focusedViewId
+                            + " during save, but can't be found during restore.");
+        }
+    }
+
+    // restore the panels
+    SparseArray&lt;Parcelable&gt; panelStates = savedInstanceState.getSparseParcelableArray(PANELS_TAG);
+    if (panelStates != null) {
+        restorePanelState(panelStates);
+    }
+
+    if (mActionBar != null) {
+        SparseArray&lt;Parcelable&gt; actionBarStates =
+                savedInstanceState.getSparseParcelableArray(ACTION_BAR_TAG);
+        if (actionBarStates != null) {
+            mActionBar.restoreHierarchyState(actionBarStates);
+        } else {
+            Log.w(TAG, "Missing saved instance states for action bar views! " +
+                    "State will not be restored.");
+        }
+    }
+}
+</code></pre>
+
+<p>对应了onSaveInstance中，save View,focused view,Panels,ActionBar.
+在restore的时候，也是restore View,focused view,Panels,ActionBar.</p>
+
+<p>我们这里可以大胆猜想，restore的过程，应该和save一样。下面就来验证，如果是一样的，就不赘述。只指出不同的地方。</p>
+
+<p>检验中...</p>
+
+<p>......</p>
+
+<p>结果发现View和ActionBar是一样的。也就是</p>
+
+<p>ViewGroup去dispath，调用View的dispatch，view的dispatch调用view的onRestoreInstanceState，view就可以在这里恢复了。</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
