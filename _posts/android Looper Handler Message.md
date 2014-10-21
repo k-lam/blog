@@ -137,8 +137,79 @@ java提供了这种方法，用JMM来描述，具体就是定义了
 
    4. synchronized(classname.class)
    
+###显式锁
+
+###同步容器类
+如HashTable和Vector，但是注意一个问题，就是复合操作。如下面这个需求：
+给Vector每个元素的值加1.的确 Vector.get是线程安全的。但get完后，对每个元素进行操作时，就不是了。可以这样做
+
+	Vector<Integer> vector;
+	synchronized(vector){
+		for(...){
+			add 1;
+		}
+	}
+
+但是这样做也是有问题的，就是vector如果元素多的时候，锁的粒度就太大了。当多个线程竞争时，并发性就会大大降低，很多线程都处于等待获得锁。尽管不是复合操作，锁对象的粒度同样是整个容器类。问题同样存在。于是有了并发容器
 
 
+###并发容器类
+####BlockingQueue
+这个类有一组阻塞的put和take操作，当达到容量上限时，put会阻塞。单队列空时，take方法阻塞
+
+最佳的例子就是生产者消费者模式，官网代码：
+
+	 class Producer implements Runnable {
+	   private final BlockingQueue queue;
+	   Producer(BlockingQueue q) { queue = q; 
+	   public void run() {
+	     try {
+	       while (true) { queue.put(produce()); }
+	     } catch (InterruptedException ex) { ... handle ...}
+	   }
+	   Object produce() { ... }
+	 }
+	
+	 class Consumer implements Runnable {
+	   private final BlockingQueue queue;
+	   Consumer(BlockingQueue q) { queue = q; }
+	   public void run() {
+	     try {
+	       while (true) { consume(queue.take()); }
+	     } catch (InterruptedException ex) { ... handle ...}
+	   }
+	   void consume(Object x) { ... }
+	 }
+	
+	 class Setup {
+	   void main() {
+	     BlockingQueue q = new SomeQueueImplementation();
+	     Producer p = new Producer(q);
+	     Consumer c1 = new Consumer(q);
+	     Consumer c2 = new Consumer(q);
+	     new Thread(p).start();
+	     new Thread(c1).start();
+	     new Thread(c2).start();
+	   }
+	 }}
+
+在下文，你会看到基于BlockingQueue实现的基于消息的线程执行机制。
+
+* ConcurrentHashMap 使用分段锁技术，大大提高了并发性
+* CopyOnWriteArrayList
+
+###一些工具类
+####CountDownLatch
+这个类就像一个闸门一样，await方法阻塞线程，用countDown()进行减操作，直到count = 0。阻塞的地方就可以继续执行了。
+
+这里有一个有趣的跑马例子
+
+####FutureTask
+
+* Semaphore 信号量 to be continued
+* Barrier 栅栏 to be continued
+
+##Android的多线程
 
 
 ##Handler
