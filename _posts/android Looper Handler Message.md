@@ -119,6 +119,76 @@ java提供了这种方法，用JMM来描述，具体就是定义了
 * 读取volatile的值，总会是最新的
 * volatile不会阻塞线程
 
+**注意：volatile并没有保证原子操作，也就是说，没有保证线程A修改volatile变量时，其他线程不可修改。**以下代码可以验证：
+
+	static volatile int vi = 0;
+	static AtomicInteger finishCount = new AtomicInteger(0);
+	static final int N = 10;
+	static final int preAddCount = 5000;
+	static Object vLock = new Object();
+	static boolean useSync = false;
+
+	public static void main(String[] args) {
+		testVi(30);
+	}
+	
+	static void testVi(int count){
+		while(count-- >= 0){
+			CountDownLatch startLatch = new CountDownLatch(1);
+			for(int i = 0; i != N;i++){
+				new Thread(new Sum(count,startLatch)).start();
+			}
+			startLatch.countDown();
+			synchronized (finishCount) {
+				if(finishCount.get() != N){
+					try {
+						finishCount.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					finishCount.set(0);
+					vi = 0;
+				}
+			}
+		}
+	}
+	
+	static class Sum implements Runnable{
+		int id;
+		CountDownLatch startLatch;
+		Sum(int id,CountDownLatch startLatch){
+			this.startLatch = startLatch;
+			this.id = id;
+		}
+		@Override
+		public void run() {
+			try {
+				startLatch.await();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			for(int i = 0;i != preAddCount;i++){
+				if(useSync){
+					synchronized (vLock) {
+						vi++;
+					}
+				}else {
+					vi++;
+				}
+			}
+			synchronized (finishCount) {
+				if(finishCount.incrementAndGet() == N){
+					System.out.println(id+":"+(vi == preAddCount * N)+"  "+vi);
+					finishCount.notify();
+				}
+			}
+		}
+	};
+
+可以看到很多false的结果。
+
+*所以volatile经常是用在：只有一个线程修改volatile变量，其他线程只是读volatile变量*
+
 ###synchronized关键字
 
 可以见内置锁，或叫监视器模式，其实就是管程（monitor）。
