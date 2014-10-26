@@ -1,10 +1,11 @@
-android中的多线程
-=========================================================
+#android中的多线程
 
 
+
+*本文例子github下载地址：*[点我！点我！](https://github.com/k-lam/mutiTheadTest)
+
+***本文从理解出发，不一定正确，仅作为总结。不对的地方求欢迎务必指正。***
 ##进程/线程同步简介：
-
-***从理解出发，不一定正确，不对的地方求欢迎务必指正。***
 
 1.  我们先看看一开始的程序设计，是顺序执行的，洗澡，煮饭，吃饭。但是你会发现，煮饭是电饭煲的事啊，于是我们就想到煮饭和洗澡同时进行，等到煮好饭，洗完澡就能吃饭。这样是不是更“省时”？
 
@@ -86,7 +87,9 @@ c 和 d的值是不确定的，可能是(0,0) (0,2) (1,0) (1,2)。因为重排�
 
 **一种想法：**我们希望两个线程是按照规则的我们预想的顺序执行的，如果存在这种方法，我们去寻找这种方法就好了。
 
-java提供了这种方法，用JMM来描述，具体就是定义了
+这时候，我们问问，java用来干嘛的？有什么特性？跨平台。yes，java就是为了屏蔽这些平台，系统差异的。让java程序员专注于业务性代码的开发。所以！
+
+java提供了这种方法，来实现我们这种想法，用JMM来描述，具体就是定义了
 
 1.  lock:将主内存中的变量锁定，为一个线程所独占
 2.  unclock:将lock加的锁定解除，此时其它的线程可以有机会访问此变量
@@ -119,6 +122,54 @@ java提供了这种方法，用JMM来描述，具体就是定义了
 * 读取volatile的值，总会是最新的
 * volatile不会阻塞线程
 
+**注意：volatile并没有保证原子操作，也就是说，没有保证线程A修改volatile变量时，其他线程不可修改。**以下代码可以验证：
+
+	static volatile int vi = 0;
+	static AtomicInteger finishCount = new AtomicInteger(0);
+	static final int N = 10;
+	static final int preAddCount = 5000;
+	static Object vLock = new Object();
+	static boolean useSync = false;
+
+	public static void main(String[] args) {
+		testVi(30);
+	}
+	
+	static void testVi(int count){
+			...
+			for(int i = 0; i != N;i++){
+				new Thread(new Sum(count,startLatch)).start();
+			}
+			...
+	}
+	
+	static class Sum implements Runnable{
+		int id;
+		CountDownLatch startLatch;
+		Sum(int id,CountDownLatch startLatch){
+			this.startLatch = startLatch;
+			this.id = id;
+		}
+		@Override
+		public void run() {
+			...
+			for(int i = 0;i != preAddCount;i++){
+				if(useSync){
+					synchronized (vLock) {
+						vi++;
+					}
+				}else {
+					vi++;
+				}
+			}
+			...
+		}
+	};
+
+多次测试可以看到vi的结果是不对的。这个例子在代码的`TestVolatile`类中
+
+*所以volatile经常是用在：只有一个线程修改volatile变量，其他线程只是读volatile变量*
+
 ###synchronized关键字
 
 可以见内置锁，或叫监视器模式，其实就是管程（monitor）。
@@ -136,8 +187,49 @@ java提供了这种方法，用JMM来描述，具体就是定义了
    3. static synchronized method(){}
 
    4. synchronized(classname.class)
+
+可以看看`TestReadWriteLockWithSysnc` 和`TestReadWriteLockWithSysnc2`这两个类
+
+####Object.wait Object.notify Object.notifyAll
+
+wait()方法是，当获得了锁，发现现在条件还不满足下面的执行，就先**阻塞**当前线程，直到这个对象的notify/notifyAll被调用。
+
+注意，notify是唤醒一个之前wait的。notifyAll是唤醒所有。
+
+可以看看`TestReadWriteLockWithSysnc` 和`TestReadWriteLockWithSysnc2`这两个类
    
 ###显式锁
+实现了java.util.concurrent.locks.Lock这个接口
+
+synchronized关键字的好处是简单，但是synchronized是不能查询锁的相关信息，如锁的状态。导致synchronized对象如果被其他线程占有，当前线程又去请求锁的话，只能阻塞。这样很容易出现阻塞。
+
+####[ReentrantLock](http://developer.android.com/reference/java/util/concurrent/locks/ReentrantLock.html)
+
+记得一定要在finally里释放锁，通常是这样的
+
+		try {
+			if(lock.tryLock()){
+				//或取锁成功
+				do sth
+			}else {
+				//没能获取锁
+				do sth
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}finally{
+				if(lock.isHeldByCurrentThread()){
+					lock.unlock();
+				}
+			}
+
+在`TestReadWriteLockWithLock`中
+
+####ReentrantReadWriteLock
+读写锁。
+很多情况下是，有专门的读线程和写线程。读读是不需要同步的，他们互不影响。但是写读和写写之间就会有冲突。读写锁就是为了这种情况的。
+
+在代码中可以看到TestReadWriteLockWithLock2这个类就是用了读写锁的。
+
 
 ###同步容器类
 如HashTable和Vector，但是注意一个问题，就是复合操作。如下面这个需求：
@@ -150,7 +242,9 @@ java提供了这种方法，用JMM来描述，具体就是定义了
 		}
 	}
 
-但是这样做也是有问题的，就是vector如果元素多的时候，锁的粒度就太大了。当多个线程竞争时，并发性就会大大降低，很多线程都处于等待获得锁。尽管不是复合操作，锁对象的粒度同样是整个容器类。问题同样存在。于是有了并发容器
+但是这样做也是有问题的，就是vector如果元素多的时候，锁的粒度就太大了。当多个线程竞争时，并发性就会大大降低，很多线程都处于等待获得锁。尽管不是复合操作，锁对象的粒度同样是整个容器类。问题同样存在。于是有了并发容器。
+
+但是在android编程中需要考虑到，android中一般很少会出现复杂的并发情况。所以同步容器类基本够用了。
 
 
 ###并发容器类
@@ -206,13 +300,75 @@ java提供了这种方法，用JMM来描述，具体就是定义了
 
 ####FutureTask
 
-* Semaphore 信号量 to be continued
-* Barrier 栅栏 to be continued
+####Semaphore 
+信号量 可以基于数量来进行阻塞，如果阻塞是和数量有关的，用信号量最好。
+
+可以参考`TestReadWriteLockWithSemaphore`这个类
+####Barrier 栅栏 
+to be continued
+
+####中断线程
+to be continued...
 
 ##Android的多线程
 
+多线程在Android编程中为什么那么重要？我们看看android的UI渲染就知道了。
 
-##Handler
+1. android没有专门的渲染线程
+2. android接收事件的线程和主线程中
+3. 要保证UI的流畅，必须保证UI线程不能执行太多的计算
+
+所以在android中多线程尤为重要，而android中的多线程主要是把UI线程的任务交给其他线程，而不是像服务器那种处理多个请求的阻塞式多线程通讯的多线程。
+
+###Handler,Looper,MessageQueue,Message
+很多人都分析过这几个东西，都挺详细的。但是把多的，大的东西说得简单，才是能真正明白。
+
+首先一般的程序，入口时main(),但是这些程序，执行完就完了，不能好像GUI程序那样，点击一下会响应。那怎么办？
+
+1. **放在一个`while(true){}`里**
+
+	但是你总不能让程序不断的`while(true)`轮训有没有事件吧，所以
+
+2. **一个阻塞机制**
+
+	那怎样唤醒这个阻塞呢？触摸屏幕怎样通知我们有触摸事件发生了呢？
+
+3. **消息机制**
+	
+以下就是简单的代码实现片段：
+
+	public class MessageBaseThread extends Thread {
+		
+		BlockingQueue<Runnable> mRunnableQueue = new ArrayBlockingQueue<Runnable>(10);
+		
+		public void sendRunnable(Runnable runnable){
+			try {
+				mRunnableQueue.put(runnable);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	
+		@Override
+		public void run() {
+			while(true){
+				try {
+					Runnable runnable = mRunnableQueue.take();//mRunnableQueue空会阻塞，直至有新的Runnable放进队列
+					runnable.run();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+*完整代码在`MessageBaseThread`类中*
+
+在android中，UI线程是一个基于消息机制的线程。就是有消息来的时候，就执行，没消息来的时候，就阻塞。android屏幕的Touch，其他事件的发生，都是通过HAL通知window，window的ViewRoot通过消息机制通知UI线程的，其实就是发给MessageQueue，当Looper处理完上一个操作，就去看看MessageQueue有没有消息，有就处理。Handler就是用来发送Message甚至发送处理这个Message的程序（Runnable）的类。
+
+下面是这些类的代码详解：
+
+####Handler
 
 >A Handler allows you to send and process Message and Runnable objects associated with a thread's MessageQueue. Each Handler instance is associated with a single thread and that thread's message queue. When you create a new Handler, it is bound to the thread / message queue of the thread that is creating it -- from that point on, it will deliver messages and runnables to that message queue and execute them as they come out of the message queue.
 
@@ -425,36 +581,18 @@ ThreadLocal这个类是关键，看看
 就是注释的那一句
 
 
-上面讲了好多，其实总结原理是很简单的。首先，我们要明白，Handler，Looper，Message，MessageQueue这个机制是为主线程（UI线程建立的），为什么？因为UI线程是一个基于消息机制的线程。就是有消息来的时候，就执行，没消息来的时候，就阻塞。android屏幕的Touch，其他事件的发生，都是通过HAL通知window，window的ViewRoot通过消息机制通知UI线程的。那么基于消息的线程怎样设计？我们不结合android源码，就最一般的java代码简单实现一下
-
-	public class MessageBaseThread extends Thread {
-		
-		BlockingQueue<Runnable> mRunnableQueue = new ArrayBlockingQueue<Runnable>(10);
-		
-		public void sendRunnable(Runnable runnable){
-			try {
-				mRunnableQueue.put(runnable);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	
-		@Override
-		public void run() {
-			while(true){
-				try {
-					Runnable runnable = mRunnableQueue.take();//mRunnableQueue空会//阻塞，知道有新的Runnable放进队列
-					runnable.run();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
-够简单吧，就是一个while(true)，和一个会阻塞的BlockingQueue。
-那就能理解Looper就是这么一个while(true)机制，MessageQueue就是上面的能阻塞的BlockingQueue。而Message，就是封装了message和Runnable的一个类，Handler就是用来发送Message和处理Message到UI线程的处理类
 
 
 ###AsyncTask
 这个类时怎样做到在doInBackground这个非UI线程，向onProgressUpdate和onPostExecute传入参数的呢？其实是用handler.sendMessage这些方法实现的（具体是Message.sendToTarget）
+
+
+##Bolts
+这是第三方开源库，Parse and Facebook是用这个的。
+
+用起来的确比AsyncTask好用，AsyncTask的代码用起来很容易变成一坨的东西，维护起来很不好用。
+而且new的时候就要指定所有泛型，而Bolts则在需要用到时，才指明泛型类型。
+
+不过Bolts上手有一点难度，但一旦上手，还是挺好用的。之前的Bolts的cancel是没有真正cancel到的，最新版要靠各位看看了。
+
+github地址：[go->](https://github.com/BoltsFramework/Bolts-Android)

@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>android多线程</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>android中的多线程</h1>
+
+<p><em>本文例子github下载地址：</em><a href="https://github.com/k-lam/mutiTheadTest">点我！点我！</a></p>
+
+<p><strong><em>本文从理解出发，不一定正确，仅作为总结。不对的地方求欢迎务必指正。</em></strong></p>
+
+<h2>进程/线程同步简介：</h2>
+
+<ol>
+<li><p>我们先看看一开始的程序设计，是顺序执行的，洗澡，煮饭，吃饭。但是你会发现，煮饭是电饭煲的事啊，于是我们就想到煮饭和洗澡同时进行，等到煮好饭，洗完澡就能吃饭。这样是不是更“省时”？</p></li>
+<li><p>另外一个例子：两个程序员抢妹子(妹子默认是互斥资源，不共享)，那一个程序员抢到手后，另外一个只能等他两分手。（race Condition）</p></li>
+</ol>
+
+<p>上面第一个例子,我们就想到，能不能把两项任务同时进行？于是就出现了并发。并发虽然“省时”，但究竟是先煮好饭，还是先洗完澡呢？这是不确定的，所以这两项任务的执行，必须协作。</p>
+
+<p>第二个例子，我们看到。两个程序员可能没什么关系的，只是抢同一个资源，于是出现了互斥。</p>
+
+<p>概括一下:
+<em>由于系统资源是有限的，所以n个进程同时请求只有m个的资源，当n > m时，就会出现竞争。而当两个进程或线程合作去完成一项工作，进度不一样时，就要出现等待条件满足的时候，就会出现同步的需要。</em></p>
+
+<p>解决同步互斥，通常包括以下方法：</p>
+
+<ul>
+<li>信号量与PV操作</li>
+<li>管程（Monitor）</li>
+<li>临界区</li>
+<li>互斥量</li>
+</ul>
+
+<p>经典问题：</p>
+
+<ul>
+<li>生产者消费者</li>
+<li>5位哲学家吃通心粉</li>
+<li>读写者</li>
+</ul>
+
+<p>下面我们只从java来分析。因为android程序大多都是用java的，ndk中用pthread也有，但不多。</p>
+
+<p>首先，不是所有线程都需要同步控制，那到底两个线程是否需要同步控制呢？
+Bernstein提出</p>
+
+<blockquote>
+  <p>假设：
+  R(Pi) = {程序Pi在执行期间所引用的变量集}，
+  W(Pi) = {程序Pi在执行期间所引用的变量集}</p>
+  
+  <p>如果R(P1)∩W(P2) ∪ R(P2)∩W(P1) = ∅,则并发执行的P1和P2可以保持封闭性和可再现性。</p>
+</blockquote>
+
+<p>也就是说，不需要同步控制。</p>
+
+<h2>Java中</h2>
+
+<h3><a href="http://en.wikipedia.org/wiki/Java_Memory_Model">JMM</a></h3>
+
+<p>首先明确，</p>
+
+<ul>
+<li><em>在多线程的环境下讨论JMM才有意义，因为单线程下，肯定按照代码顺序执行。</em></li>
+<li>线程是处理器调到的执行单位，（进程是资源分配单位）。也可以认为，线程运行时，对应一个处理器。</li>
+</ul>
+
+<p>让我们看看底层的环境：</p>
+
+<ol>
+<li>在编译器中生成的指令顺序，可以与源代码中的顺序不同</li>
+<li>处理器可以采用乱序或并行等方式来执行指令（指令重排序，处理器架构的内容）</li>
+<li>执行时变量保存在寄存器中，而不是内存中，而处理器还有cache来缓存</li>
+<li>缓存的存在会改变写入变量提高到主内存的次序</li>
+<li>多处理器环境中，处理器A的缓存对处理器B是不可见的</li>
+</ol>
+
+<p>上面几点，难懂，但是这里只是说java，所以就没必要搞那么深入，所以总结为以下两点</p>
+
+<ol>
+<li><strong>代码编译成指令，为了达到最佳的执行性能，编译器，处理器等会把这些指令进行重排序（reorder），也就是指令执行和代码顺序可能会不同</strong></li>
+<li><strong>处理器中有寄存器，有寄存器缓存。当一条线程被运行时，会把在主存上下文load到处理器，执行过程中，处理器中的数据，和主存的数据肯定不一样。</strong></li>
+</ol>
+
+<p>对于第一点，还是例子说说吧</p>
+
+<pre><code>    //重排序例子：
+    static int a,b;
+    new Thread(new Runnable() {
+
+        @Override
+        public void run() {
+            a = 1;
+            b = 2;
+        }
+    }).start();
+
+   int c = a;
+   int d = b;
+</code></pre>
+
+<p>c 和 d的值是不确定的，可能是(0,0) (0,2) (1,0) (1,2)。因为重排序的存在</p>
+
+<p>哇！f*ck,想想都可怕。不过细想一下，并行的两个线程，其实要协作竞争的，可能就那么一两个变量，所以只需要搞掂这一两个协作竞争的变量就好了。</p>
+
+<p><strong>一种想法：</strong>我们希望两个线程是按照规则的我们预想的顺序执行的，如果存在这种方法，我们去寻找这种方法就好了。</p>
+
+<p>这时候，我们问问，java用来干嘛的？有什么特性？跨平台。yes，java就是为了屏蔽这些平台，系统差异的。让java程序员专注于业务性代码的开发。所以！</p>
+
+<p>java提供了这种方法，来实现我们这种想法，用JMM来描述，具体就是定义了</p>
+
+<ol>
+<li>lock:将主内存中的变量锁定，为一个线程所独占</li>
+<li>unclock:将lock加的锁定解除，此时其它的线程可以有机会访问此变量</li>
+<li>read:将主内存中的变量值读到工作内存当中</li>
+<li>load:将read读取的值保存到工作内存中的变量副本中。</li>
+<li>use:将值传递给线程的代码执行引擎</li>
+<li>assign:将执行引擎处理返回的值重新赋值给变量副本</li>
+<li>store:将变量副本的值存储到主内存中。</li>
+<li>write:将store存储的值写入到主内存的共享变量当中。</li>
+</ol>
+
+<p>8种原子操作，且必须成对出现。和Happens-Before偏序关系。又由于我们不是研究JMM或Java这门语言的
+所以我们知道下面这个就可以了：</p>
+
+<p>线程操作某个对象时，执行顺序如下：</p>
+
+<ol>
+<li>从主存复制变量到当前工作内存 (read and load)</li>
+<li>执行代码，改变共享变量值 (use and assign)</li>
+<li>用工作内存数据刷新主存相关内容 (store and write)</li>
+</ol>
+
+<h3>Volatile</h3>
+
+<p>很多地方说，volatile变量是提供一种轻量的同步机制。这个轻量同步机制是什么意思呢？</p>
+
+<p>首先，我们解析<strong>可见性</strong>这个概念
+当单线程时，a = 1;线程自己肯定是见到a的值是1.
+但是多线程就未必了，当线程A 执行a = 1，线程B未必见到a = 1；因为上面说过处理器本地内存问题。</p>
+
+<p>所以为了修改马上可见。我们有一种轻量的同步机制，Volatile。记住以下两点</p>
+
+<ul>
+<li>读取volatile的值，总会是最新的</li>
+<li>volatile不会阻塞线程</li>
+</ul>
+
+<p><strong>注意：volatile并没有保证原子操作，也就是说，没有保证线程A修改volatile变量时，其他线程不可修改。</strong>以下代码可以验证：</p>
+
+<pre><code>static volatile int vi = 0;
+static AtomicInteger finishCount = new AtomicInteger(0);
+static final int N = 10;
+static final int preAddCount = 5000;
+static Object vLock = new Object();
+static boolean useSync = false;
+
+public static void main(String[] args) {
+    testVi(30);
+}
+
+static void testVi(int count){
+        ...
+        for(int i = 0; i != N;i++){
+            new Thread(new Sum(count,startLatch)).start();
+        }
+        ...
+}
+
+static class Sum implements Runnable{
+    int id;
+    CountDownLatch startLatch;
+    Sum(int id,CountDownLatch startLatch){
+        this.startLatch = startLatch;
+        this.id = id;
+    }
+    @Override
+    public void run() {
+        ...
+        for(int i = 0;i != preAddCount;i++){
+            if(useSync){
+                synchronized (vLock) {
+                    vi++;
+                }
+            }else {
+                vi++;
+            }
+        }
+        ...
+    }
+};
+</code></pre>
+
+<p>多次测试可以看到vi的结果是不对的。这个例子在代码的<code>TestVolatile</code>类中</p>
+
+<p><em>所以volatile经常是用在：只有一个线程修改volatile变量，其他线程只是读volatile变量</em></p>
+
+<h3>synchronized关键字</h3>
+
+<p>可以见内置锁，或叫监视器模式，其实就是管程（monitor）。</p>
+
+<p>这个关键字就是用来实现可见性和Happens-Before关系的。退出锁的时候，会发布状态（store and write）和 可以让其他线程获取锁。</p>
+
+<p>同一时刻，只有一个线程能持有锁对象，直到这个线程释放这个锁对象</p>
+
+<p>四种方式   synchronized关键字</p>
+
+<ol>
+<li><p>sychronized method(){}</p></li>
+<li><p>sychronized (objectReference) {/<em>block</em>/}</p></li>
+<li><p>static synchronized method(){}</p></li>
+<li><p>synchronized(classname.class)</p></li>
+</ol>
+
+<p>可以看看<code>TestReadWriteLockWithSysnc</code> 和<code>TestReadWriteLockWithSysnc2</code>这两个类</p>
+
+<h4>Object.wait Object.notify Object.notifyAll</h4>
+
+<p>wait()方法是，当获得了锁，发现现在条件还不满足下面的执行，就先<strong>阻塞</strong>当前线程，直到这个对象的notify/notifyAll被调用。</p>
+
+<p>注意，notify是唤醒一个之前wait的。notifyAll是唤醒所有。</p>
+
+<p>可以看看<code>TestReadWriteLockWithSysnc</code> 和<code>TestReadWriteLockWithSysnc2</code>这两个类</p>
+
+<h3>显式锁</h3>
+
+<p>实现了java.util.concurrent.locks.Lock这个接口</p>
+
+<p>synchronized关键字的好处是简单，但是synchronized是不能查询锁的相关信息，如锁的状态。导致synchronized对象如果被其他线程占有，当前线程又去请求锁的话，只能阻塞。这样很容易出现阻塞。</p>
+
+<h4><a href="http://developer.android.com/reference/java/util/concurrent/locks/ReentrantLock.html">ReentrantLock</a></h4>
+
+<p>记得一定要在finally里释放锁，通常是这样的</p>
+
+<pre><code>    try {
+        if(lock.tryLock()){
+            //或取锁成功
+            do sth
+        }else {
+            //没能获取锁
+            do sth
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally{
+            if(lock.isHeldByCurrentThread()){
+                lock.unlock();
+            }
+        }
+</code></pre>
+
+<p>在<code>TestReadWriteLockWithLock</code>中</p>
+
+<h4>ReentrantReadWriteLock</h4>
+
+<p>读写锁。
+很多情况下是，有专门的读线程和写线程。读读是不需要同步的，他们互不影响。但是写读和写写之间就会有冲突。读写锁就是为了这种情况的。</p>
+
+<p>在代码中可以看到TestReadWriteLockWithLock2这个类就是用了读写锁的。</p>
+
+<h3>同步容器类</h3>
+
+<p>如HashTable和Vector，但是注意一个问题，就是复合操作。如下面这个需求：
+给Vector每个元素的值加1.的确 Vector.get是线程安全的。但get完后，对每个元素进行操作时，就不是了。可以这样做</p>
+
+<pre><code>Vector&lt;Integer&gt; vector;
+synchronized(vector){
+    for(...){
+        add 1;
+    }
+}
+</code></pre>
+
+<p>但是这样做也是有问题的，就是vector如果元素多的时候，锁的粒度就太大了。当多个线程竞争时，并发性就会大大降低，很多线程都处于等待获得锁。尽管不是复合操作，锁对象的粒度同样是整个容器类。问题同样存在。于是有了并发容器。</p>
+
+<p>但是在android编程中需要考虑到，android中一般很少会出现复杂的并发情况。所以同步容器类基本够用了。</p>
+
+<h3>并发容器类</h3>
+
+<h4>BlockingQueue</h4>
+
+<p>这个类有一组阻塞的put和take操作，当达到容量上限时，put会阻塞。单队列空时，take方法阻塞</p>
+
+<p>最佳的例子就是生产者消费者模式，官网代码：</p>
+
+<pre><code> class Producer implements Runnable {
+   private final BlockingQueue queue;
+   Producer(BlockingQueue q) { queue = q; 
+   public void run() {
+     try {
+       while (true) { queue.put(produce()); }
+     } catch (InterruptedException ex) { ... handle ...}
+   }
+   Object produce() { ... }
+ }
+
+ class Consumer implements Runnable {
+   private final BlockingQueue queue;
+   Consumer(BlockingQueue q) { queue = q; }
+   public void run() {
+     try {
+       while (true) { consume(queue.take()); }
+     } catch (InterruptedException ex) { ... handle ...}
+   }
+   void consume(Object x) { ... }
+ }
+
+ class Setup {
+   void main() {
+     BlockingQueue q = new SomeQueueImplementation();
+     Producer p = new Producer(q);
+     Consumer c1 = new Consumer(q);
+     Consumer c2 = new Consumer(q);
+     new Thread(p).start();
+     new Thread(c1).start();
+     new Thread(c2).start();
+   }
+ }}
+</code></pre>
+
+<p>在下文，你会看到基于BlockingQueue实现的基于消息的线程执行机制。</p>
+
+<ul>
+<li>ConcurrentHashMap 使用分段锁技术，大大提高了并发性</li>
+<li>CopyOnWriteArrayList</li>
+</ul>
+
+<h3>一些工具类</h3>
+
+<h4>CountDownLatch</h4>
+
+<p>这个类就像一个闸门一样，await方法阻塞线程，用countDown()进行减操作，直到count = 0。阻塞的地方就可以继续执行了。</p>
+
+<p>这里有一个有趣的跑马例子</p>
+
+<h4>FutureTask</h4>
+
+<h4>Semaphore</h4>
+
+<p>信号量 可以基于数量来进行阻塞，如果阻塞是和数量有关的，用信号量最好。</p>
+
+<p>可以参考<code>TestReadWriteLockWithSemaphore</code>这个类</p>
+
+<h4>Barrier 栅栏</h4>
+
+<p>to be continued</p>
+
+<h4>中断线程</h4>
+
+<p>to be continued...</p>
+
+<h2>Android的多线程</h2>
+
+<p>多线程在Android编程中为什么那么重要？我们看看android的UI渲染就知道了。</p>
+
+<ol>
+<li>android没有专门的渲染线程</li>
+<li>android接收事件的线程和主线程中</li>
+<li>要保证UI的流畅，必须保证UI线程不能执行太多的计算</li>
+</ol>
+
+<p>所以在android中多线程尤为重要，而android中的多线程主要是把UI线程的任务交给其他线程，而不是像服务器那种处理多个请求的阻塞式多线程通讯的多线程。</p>
+
+<h3>Handler,Looper,MessageQueue,Message</h3>
+
+<p>很多人都分析过这几个东西，都挺详细的。但是把多的，大的东西说得简单，才是能真正明白。</p>
+
+<p>首先一般的程序，入口时main(),但是这些程序，执行完就完了，不能好像GUI程序那样，点击一下会响应。那怎么办？</p>
+
+<ol>
+<li><p><strong>放在一个<code>while(true){}</code>里</strong></p>
+
+<p>但是你总不能让程序不断的<code>while(true)</code>轮训有没有事件吧，所以</p></li>
+<li><p><strong>一个阻塞机制</strong></p>
+
+<p>那怎样唤醒这个阻塞呢？触摸屏幕怎样通知我们有触摸事件发生了呢？</p></li>
+<li><p><strong>消息机制</strong></p></li>
+</ol>
+
+<p>以下就是简单的代码实现片段：</p>
+
+<pre><code>public class MessageBaseThread extends Thread {
+
+    BlockingQueue&lt;Runnable&gt; mRunnableQueue = new ArrayBlockingQueue&lt;Runnable&gt;(10);
+
+    public void sendRunnable(Runnable runnable){
+        try {
+            mRunnableQueue.put(runnable);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+        while(true){
+            try {
+                Runnable runnable = mRunnableQueue.take();//mRunnableQueue空会阻塞，直至有新的Runnable放进队列
+                runnable.run();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre>
+
+<p><em>完整代码在<code>MessageBaseThread</code>类中</em></p>
+
+<p>在android中，UI线程是一个基于消息机制的线程。就是有消息来的时候，就执行，没消息来的时候，就阻塞。android屏幕的Touch，其他事件的发生，都是通过HAL通知window，window的ViewRoot通过消息机制通知UI线程的，其实就是发给MessageQueue，当Looper处理完上一个操作，就去看看MessageQueue有没有消息，有就处理。Handler就是用来发送Message甚至发送处理这个Message的程序（Runnable）的类。</p>
+
+<p>下面是这些类的代码详解：</p>
+
+<h4>Handler</h4>
+
+<blockquote>
+  <p>A Handler allows you to send and process Message and Runnable objects associated with a thread's MessageQueue. Each Handler instance is associated with a single thread and that thread's message queue. When you create a new Handler, it is bound to the thread / message queue of the thread that is creating it -- from that point on, it will deliver messages and runnables to that message queue and execute them as they come out of the message queue.</p>
+</blockquote>
+
+<p>看官网的这段文字，得到几点信息：</p>
+
+<ol>
+<li>Handler是用来发送Message或Runnable的</li>
+<li>发给MessageQueue，这个MessageQueue是属于Thread的</li>
+<li>当你new Handler时，就已经把这个Handler和Thread的MessageQueue绑定了 </li>
+<li>发送给message queue的Message或Runnable，当他们出队时，会被执行。</li>
+</ol>
+
+<p>奇怪的是，MessageQueue是属于Thread的，这个怎么理解？因为第三点
+我们来看看Handler的构造函数</p>
+
+<pre><code>程序1：
+ public Handler() {
+    ...
+    mLooper = Looper.myLooper();
+    if (mLooper == null) {
+        throw new RuntimeException(
+            "Can't create handler inside thread that has not called Looper.prepare()");
+    }
+    mQueue = mLooper.mQueue;
+    ...
+}
+</code></pre>
+
+<p>Looper.myLooper()：</p>
+
+<pre><code>程序2：
+static final ThreadLocal&lt;Looper&gt; sThreadLocal = new ThreadLocal&lt;Looper&gt;();
+public static Looper myLooper() {
+    return sThreadLocal.get();
+}
+</code></pre>
+
+<p>ThreadLocal这个类是关键，看看</p>
+
+<blockquote>
+  <p>Implements a thread-local storage, that is, a variable for which each thread has its own value. All threads share the same ThreadLocal object, but each sees a different value when accessing it, and changes made by one thread do not affect the other threads. The implementation supports null values.</p>
+</blockquote>
+
+<p>简单说就是，一个对象了，每一个线程有自己的副本，每一个线程可以有自己的值，通过get() set()来获取值。</p>
+
+<p>这里还没有完，因为第三点说的是Handler和MessageQueue绑定啊，这里只出现了Looper，同时注意到程序1.的以下语句</p>
+
+<pre><code>mLooper = Looper.myLooper();
+if (mLooper == null) {
+        throw new RuntimeException(
+            "Can't create handler inside thread that has not called Looper.prepare()");
+    }
+</code></pre>
+
+<p>也就是说，在调用<code>mLooper = Looper.myLooper();</code>之前，必须先调用<code>Looper.prepare()</code></p>
+
+<pre><code> public static void prepare() {
+    if (sThreadLocal.get() != null) {
+        throw new RuntimeException("Only one Looper may be created per thread");
+    }
+    sThreadLocal.set(new Looper());
+}
+
+private Looper() {
+    mQueue = new MessageQueue();
+    mRun = true;
+    mThread = Thread.currentThread();
+}
+</code></pre>
+
+<p>原来MessageQueue在Looper里面，而且注意到Looper.prepare()是静态的，直接把Looper的实例存到线程相关的变量里面，这样我们就不用自己保存一个引用了，怪不得<code>mLooper = Looper.myLooper();</code>能直接获取一个线程相关的实例。好了，2和3解决了，Handler里面有一个ThreadLocal的Looper，Looper中有MessageQueue.</p>
+
+<p>对于第1和4点，我们先看看Android官网Handler的</p>
+
+<blockquote>
+  <p>Scheduling messages is accomplished with the post(Runnable), postAtTime(Runnable, long), postDelayed(Runnable, long), sendEmptyMessage(int), sendMessage(Message), sendMessageAtTime(Message, long), and sendMessageDelayed(Message, long) methods. The post versions allow you to enqueue Runnable objects to be called by the message queue when they are received; the sendMessage versions allow you to enqueue a Message object containing a bundle of data that will be processed by the Handler's handleMessage(Message) method (requiring that you implement a subclass of Handler).</p>
+</blockquote>
+
+<p>我们看看sendMessageAtTime这个方法，因为最后sendMessage族的方法，最后都是调用这个</p>
+
+<pre><code> public boolean sendMessageAtTime(Message msg, long uptimeMillis) {
+    boolean sent = false;
+    MessageQueue queue = mQueue;
+    if (queue != null) {
+        msg.target = this;
+        sent = queue.enqueueMessage(msg, uptimeMillis);
+    }
+    else {
+        RuntimeException e = new RuntimeException(
+            this + " sendMessageAtTime() called with no mQueue");
+        Log.w("Looper", e.getMessage(), e);
+    }
+    return sent;
+}
+</code></pre>
+
+<p>就是把msg放到Looper的MessageQueue中，第1点解决，现在看第4点，怎样执行呢？</p>
+
+<p>看看官网给出的一段关于Handler的程序</p>
+
+<pre><code> class LooperThread extends Thread {
+  public Handler mHandler;
+
+  public void run() {
+      Looper.prepare();
+
+      mHandler = new Handler() {
+          public void handleMessage(Message msg) {
+              // process incoming messages here
+          }
+      };
+
+      Looper.loop();
+  }
+}
+</code></pre>
+
+<p>注意到最后一句<code>Looper.loop();</code></p>
+
+<pre><code>/**
+ * Run the message queue in this thread. Be sure to call
+ * {@link #quit()} to end the loop.
+ */
+public static void loop() {
+    Looper me = myLooper();
+    if (me == null) {
+        throw new RuntimeException("No Looper; Looper.prepare() wasn't called on this thread.");
+    }
+    MessageQueue queue = me.mQueue;   
+    ...
+    while (true) {
+        Message msg = queue.next(); // might block
+        if (msg != null) {
+             ...
+            msg.target.dispatchMessage(msg);
+            ...
+            msg.recycle();
+        }
+    }
+}
+</code></pre>
+
+<p>关键就是 <code>msg.target.dispatchMessage(msg);</code>这句了，msg.target是一个Handler</p>
+
+<pre><code>/**
+ * Handle system messages here.
+ */
+public void dispatchMessage(Message msg) {
+    if (msg.callback != null) {
+        handleCallback(msg);
+    } else {
+        if (mCallback != null) {
+            if (mCallback.handleMessage(msg)) {
+                return;
+            }
+        }
+        handleMessage(msg);
+    }
+}
+
+ private final void handleCallback(Message message) {
+    message.callback.run();
+}
+
+//mCallback就是构造函数Handler(Callback callback)传入来的，没有传就没有了
+public interface Callback {
+    public boolean handleMessage(Message msg);
+}
+</code></pre>
+
+<p>最后才调用handleMessage(msg);就是一般我们会覆盖的方法，如：</p>
+
+<pre><code>Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            int type = msg.what;
+            switch (type) {
+            case 0:
+                //do sth
+                break;
+            case 1:
+                //do sth
+                break;
+            default:
+                break;
+            }
+        }
+    };      
+</code></pre>
+
+<p>至此，Handler的sendMsg和怎么执行已经分析完毕</p>
+
+<h2>HandlerThread</h2>
+
+<p>根据官方文档，说这个是一个</p>
+
+<blockquote>
+  <p>Handy class for starting a new thread that has a looper. The looper can then be used to create handler classes.</p>
+</blockquote>
+
+<p>怎样方便呢？</p>
+
+<pre><code>private static class myHandlerThread extends HandlerThread{
+    private Handler myHandler;
+    public myHandlerThread(String name) {
+        super(name);
+    }
+
+    public Handler getHandler(){
+        return myHandler;
+    }
+
+    @Override
+    public synchronized void start() {
+        super.start();
+        Looper looper = getLooper();//这一句会阻塞到Looper对象初始化结束，就可以确保strat后调用getHandler不会返回null
+        myHandler = new Handler(looper){
+            @Override
+            public void handleMessage(Message msg) {
+                //处理消息
+            }
+        };
+    }
+}
+</code></pre>
+
+<p>就是注释的那一句</p>
+
+<h3>AsyncTask</h3>
+
+<p>这个类时怎样做到在doInBackground这个非UI线程，向onProgressUpdate和onPostExecute传入参数的呢？其实是用handler.sendMessage这些方法实现的（具体是Message.sendToTarget）</p>
+
+<h2>Bolts</h2>
+
+<p>这是第三方开源库，Parse and Facebook是用这个的。</p>
+
+<p>用起来的确比AsyncTask好用，AsyncTask的代码用起来很容易变成一坨的东西，维护起来很不好用。
+而且new的时候就要指定所有泛型，而Bolts则在需要用到时，才指明泛型类型。</p>
+
+<p>不过Bolts上手有一点难度，但一旦上手，还是挺好用的。之前的Bolts的cancel是没有真正cancel到的，最新版要靠各位看看了。</p>
+
+<p>github地址：<a href="https://github.com/BoltsFramework/Bolts-Android">go-></a></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
