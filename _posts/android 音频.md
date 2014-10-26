@@ -3,6 +3,7 @@
 
 振荡产生声音振幅决定音量，频率决定音调。模拟信号到数字信号的转换是通过A/D来转换的。其中采样率就是每秒钟采样的次数，越高越真实，当然越高，文件大小越大。不过这样采样，肯定就是离散的点了。为了有更加直接的感受，直接上代码！(如果有matlab就好了！！！)
 
+```java
 	public class test1 extends Activity implements OnClickListener {
 
 	volatile boolean playing = false;
@@ -59,6 +60,7 @@
 		}
 	}
 	}
+```
 
 在音频开发中，可能会经常见到playback这个词，回放。什么事回放？其实"back"（"回"）的意义在于，模拟信号经过A/D转换成数字信号，而在程序中对数字信号play**back**，通过D/A,转回模拟信号播放出来
 
