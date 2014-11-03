@@ -25,11 +25,15 @@
 * 临界区
 * 互斥量
 
-经典问题：
+**经典问题：**
 
-* 生产者消费者
-* 5位哲学家吃通心粉
-* 读写者
+* **生产者消费者**
+* **5位哲学家吃通心粉**
+* **读写者**
+
+其实上面这几个不止是“问题”，更加是解决方案、模式，如生产者消费者模式，就是产生数据与处理数据的处理不一致时，经常会用到。如渲染，渲染用GPU，用专门的线程去做（如android中的GLSurfaceView），ui线程接收用户操作，向GL线程发送操作指令，GL线程再去处理，这里产生数据和处理数据就很好地解耦了。java中经常用`BlockingQueue`类来实现生产者消费者模式。
+
+而对于读写者，java中通常用读写锁来实现。
 
 下面我们只从java来分析。因为android程序大多都是用java的，ndk中用pthread也有，但不多。
 
@@ -250,6 +254,7 @@ synchronized关键字的好处是简单，但是synchronized是不能查询锁�
 ###并发容器类
 ####BlockingQueue
 这个类有一组阻塞的put和take操作，当达到容量上限时，put会阻塞。单队列空时，take方法阻塞
+而且`take`和`put`方法通过锁模式保证了原子性的操作。
 
 最佳的例子就是生产者消费者模式，官网代码：
 
@@ -500,7 +505,10 @@ ThreadLocal这个类是关键，看看
         }
     }
 
-关键就是 `msg.target.dispatchMessage(msg);`这句了，msg.target是一个Handler
+关键就是`queue.next()`和`msg.target.dispatchMessage(msg);`
+`queue.next()`通过监视器(synchronized关键字)提供原子性的操作和线程的阻塞。
+
+`msg.target.dispatchMessage(msg);`这句，msg.target是一个Handler
 
 	/**
      * Handle system messages here.
