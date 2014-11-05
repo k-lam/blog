@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>360度展示</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>android下的360度展示</h1>
+
+<h2>概述：</h2>
+
+<p>电商行业竞争激烈，如果可以360度展示一样商品，那就更加有优势了。在网页端，我们已经看到不少360度展示的事例。那在手机端，怎么做呢？我们希望做一个用户通过滑动手指，就能换个观察角度。</p>
+
+<h2>实现思路：</h2>
+
+<p>最直接的方式应该是播放视频，看是视频的最后和开始不能连接起来。所以我们用多张照片切换的方式来做。很明显，照片越多，看起来越连续。
+1. 通过转盘（淘宝上能搜索岛），拍一个360度的视频。
+2. 截30张图传给手机
+3. 在手机通过切换图片的方法，来进行360度显示。</p>
+
+<p>但是遇到问题了。
+1. 30张图，800*480的jpg格式，一张有170k左右，30张就快5Mb了。对于用户来说，太大了。
+2. android上一次性加载30张图片的话。要大概44M的内存空间！</p>
+
+<p>对于第一个问题，我们的办法是压缩。一般的压缩还不行。考虑到每两张图片之间的相似度极高，我们用视频压缩技术。</p>
+
+<p>对于第二个问题，有两版，第一版是虚拟内存的思路，第二版用显存。</p>
+
+<p>于是，我们的整个流程就变成：</p>
+
+<ol>
+<li>通过转盘（淘宝上能搜索到），拍一个360度的视频</li>
+<li>用ffmpeg进行截图，平均间距的取30张照片</li>
+<li>通过ffmpeg，把这30张照片压缩成视频</li>
+<li>传输到手机端，在手机端把视频解压成图片</li>
+<li>用图片的方式进行显示</li>
+</ol>
+
+<h2>实现</h2>
+
+<h3>ffmpeg截图 压缩</h3>
+
+<p>截图和压缩查看ffmpeg的指令
+<em>（实例源码只支持avi格式的视频，不支持mp4的。而这个avi的视频是由png图片压成的）</em></p>
+
+<h3>解压</h3>
+
+<p>源码参考jni/decoder.c下的decode2pixel方法。
+java中的封装是orbit/Extractor.java</p>
+
+<p>但是解压出来的是bitmap（pixel），所以需要把bitmap保存回png格式。但是如果decode之后串行地执行格式转换，再保存。在ZTE的测试机上耗时超过10s！如何解决这个问题？在这里直接贴上当时的项目周报：</p>
+
+<blockquote>
+  <ol>
+  <li>经过记录时间，发现用时最多的是在  sws_scale  ,for(rgb转bgr) ,写文件三个操作</li>
+  <li>分线程，sws_scale一个线程A，for和写文件在一个线程B</li>
+  <li>上面两个线程同步需要同步等待，耗时比较厉害</li>
+  <li>把ffmpeg中原来的rgb直接解成bgr，省略掉耗时操作for，直接把ffmpeg的数据赋值给openCV。线程A：sws_scale，线程B：写文件</li>
+  <li>由于多线程操作，返回java改成回调的通知方式，需要在线程B加上同步（临界区实现）。通过优化，主线程只需要进行一次可能会出现的阻塞。
+  至此，在ZTE机上测试最优结果是主线程3250ms可以返回，从执行开始到所有文件写入，耗时3365ms。慢的情况可能在4.9-6s之间，而主要耗时的操作在sws_scale。</li>
+  </ol>
+</blockquote>
+
+<p>其中，保存函数写在utils.cpp中</p>
+
+<h3>显示</h3>
+
+<h4>version 1 虚拟内存的方法：</h4>
+
+<p>源码：</p>
+
+<ul>
+<li>orbit/V360Show.java（View入口）</li>
+<li>orbit/BitmapLoop2.java（主要逻辑实现）</li>
+</ul>
+
+<p>虚拟内存是参考操作系统虚拟内存的做法。当主存不够用的时候，在硬盘中开辟一块空间出来。主存中放置要用的那部分，未用到的放置硬盘中，当发现主存中没有，就从硬盘中load进来，把不用的从内存中存到硬盘中。</p>
+
+<p>但是当发现没在主存中的时候才去load，那就是不能及时的呈现用户需要的那张图片，所以我们要预先加载！</p>
+
+<p>我们的做法：在内存中保存n张图片（7张以上），容纳这n张图片的叫窗口（主存）。n张图片从0编号，到n-1，显示给用户看的，永远是第n / 2张图片。当向左滑动时，相当于窗口向左滑动，这时应该从硬盘中load一张图片，放在窗口的第一个位置，而窗口最后一张图片删除。</p>
+
+<p><strong>鱼和熊掌：</strong>如果希望切换时不会出现卡顿，应该把窗口尽量设大。但是太大，怕会出现OOM。因为我们的应用不可能只有这一个View。</p>
+
+<p>一条粗略的公式： m = n / 2，也就是左右缓存的图片数量。设Tl是load图片到变成bitmap的时间，To是除Tl的其他时间，当Tl / To &lt; m的时候，就不会出现卡顿的情况。</p>
+
+<h5>BitmapLoop2关键代码分析</h5>
+
+<p>入口代码是toRight()和toLeft()两个方法，这两个方法都调用getBitmap2</p>
+
+<pre><code>public Bitmap getBitmap2(int toward, final Context context) {
+    this.toward = toward;
+    LoadInfo[] lis = caculateShouldLoad2();
+    if (lis != null) {
+        for (final LoadInfo li : lis) {
+            final int cid = controlID++;
+            if (li.toward == 0 || li.getCount() == 0) {
+                continue;
+            }
+            Task.KLTask kl = new KLTask();
+            Callable&lt;BitmapWithName[]&gt; callable = new Callable&lt;BitmapWithName[]&gt;() {
+                @Override
+                public BitmapWithName[] call() throws Exception {
+                    BitmapWithName[] bs = new BitmapWithName[li.getCount()];
+                    // 读图片
+                    String name = "";
+                    if (-1 == li.toward) {
+                        for (int i = 0; i != bs.length; i++) {
+                            name = getName(li.loadIndexs[i]);
+                            bs[i] = new BitmapWithName(getBitmapFromDisk(
+                                    context, name), name);
+                        }
+                    } else if (1 == li.toward) {
+                        for (int i = 0; i != bs.length; i++) {
+                            name = getName(li.loadIndexs[i]);
+                            bs[i] = new BitmapWithName(getBitmapFromDisk(
+                                    context, name), name);
+                        }
+                    }
+                    print(cid + " : " + name + " is loaded in background");
+                    return bs;
+                }
+            };
+            Task&lt;BitmapWithName[]&gt; task = kl.create(callable);
+            tasksManager.add(new LoadTask(task, li, cid));
+            kl.exec(Task.BACKGROUND_EXECUTOR);
+        }
+    }
+    int index = showing.get() + toward;
+    if (index &gt;= 0 &amp;&amp; index &lt; WINDOW_CAPACITY) {
+        showing.addAndGet(toward);
+        try{
+            bitmapWindow.get(index);
+        }catch(Exception exception){
+
+            Log.e("debug","exception: index:" + index + ",WINDOW_CAPACITY:"+WINDOW_CAPACITY+",size:"+bitmapWindow.size()+",thread id:"+Thread.currentThread().getId());
+        }
+        print(controlID + " showing:" + showing.get() + ",toward:" + toward
+                + ",l:" + tasksManager.lloadingCount + ",r:"
+                + tasksManager.rloadingCount + " name:"
+                + bitmapWindow.get(index).name);
+        return bitmapWindow.get(index).bitmap;
+    } else {
+        print(controlID + " showing:" + showing.get() + ",toward:" + toward
+                + ",l:" + tasksManager.lloadingCount + ",r:"
+                + tasksManager.rloadingCount + "   nothing show");
+        return null;
+    }
+}
+</code></pre>
+
+<p>这个方法分成两部分</p>
+
+<ol>
+<li><p><code>int index = showing.get() + toward;</code>之前，是用来在窗口开头或者末尾添加一张新图片， <code>caculateShouldLoad2</code>这个方法就是告诉我们要加载那些图片。然后根据caculateShouldLoad2  的返回，创建异步任务去加载。<code>tasksManager</code>实际上是一个任务队列，是为了以后方便管理的，  如取消这个加载任务，统计正在加载的图片数。</p></li>
+<li><p>显示图片，如果没有图片显示，则返回null，也就是说，缓存中的图片都用完了，需要的图片还在加载中，未返回。</p></li>
+</ol>
+
+<p>在解析<code>caculateShouldLoad2</code>这个函数前，先介绍几个重要的定义：</p>
+
+<pre><code>/**
+ * disk中左指针，记录当前在disk中，左面读到哪一张图片
+ */
+int diskPointer_l;
+/**
+ * disk中右指针，记录当前在disk中，右面读到哪一张图片
+ */
+int diskPointer_r;
+
+/**
+ * -1:左，0：未移动，1：右。只有ui线程修改
+ */
+int toward = 0;
+
+/**
+ * 任务队列
+ */
+TasksManager tasksManager = new TasksManager();
+
+/**
+ * 这个app允许的最大内存数，单位是m
+ */
+static int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);
+
+final static int EXTRA_COUNT = maxMemory &gt; 48 ? 2 : 1;
+
+/**
+ * 窗口容量，请用奇数
+ */
+final static int WINDOW_CAPACITY = maxMemory &gt; 48 ? 9 : 7;
+
+/**
+ * 正满
+ */
+final static int Full_Main = (WINDOW_CAPACITY / 2 + EXTRA_COUNT) &gt;= WINDOW_CAPACITY ? (EXTRA_COUNT / 2 + 2)
+        : (WINDOW_CAPACITY / 2 + CPU_COUNT);
+
+/**
+ * 反满
+ */
+final static int Full_Anti = WINDOW_CAPACITY - Full_Main;
+</code></pre>
+
+<p>解析一下正满和反满的概念。如窗口容量是7，EXTRA_COUNT = 1，当前显示肯定是3，左缓存是0,1,2 右缓存是4,5,6.这是初始化的情况。但是当向右移的时候，这个我们可以假设，用户继续向右移的可能性比向左移大，所以，这个我们可以设置右缓存大于左缓存。而正满的正是代表移动方向，也就是现在右缓存容量是4，而左缓存是2。</p>
+
+<p>现在来看看<code>caculateShouldLoad2</code>这个方法！</p>
+
+<pre><code>LoadInfo[] caculateShouldLoad2() {
+    // 4条重要原则
+    // 1.正方向：loading + rest不超过full
+    // 2.这次要load的总数：LoadSum = full - loading - rest
+    // 3.LoadSum = l1 + l2 + l3... 如果showing离边界很近，也就是Window上面的rest很少，loading
+    // = 0的情况，那应
+    // 快速先读一张图片返回显示，然后再读2 ，3这样读下去直到总数是LoadSum
+    // 4.showing是未移动的showing位置，如果发生reverse，toward是未reverse的toward
+    // 引申操作：
+    // 1.由于发生reverse而违反重要原则1的，读反至符合重要原则1，多余的loading要cancel掉
+
+    // 最后总结，只有一条规则：mainLoading - antiLoading + mainRest &lt;=
+    // Full_main。先cancel后add的节奏
+    int antiLoading = 0;
+    // int antiRest = 0;
+    int mainRest = 0;
+    int mainLoading = 0;
+    int showing = this.showing.get();
+    // int toward = hasReversed ? -this.toward:this.toward;
+    if (-1 == toward) {
+        antiLoading = tasksManager.getRloadingCount();
+        mainLoading = tasksManager.getLloadingCount();
+        // antiRest = WINDOW_CAPACITY - showing - 1;
+        mainRest = showing;
+    } else {
+        antiLoading = tasksManager.getLloadingCount();
+        mainLoading = tasksManager.getRloadingCount();
+        // antiRest = showing;
+        mainRest = WINDOW_CAPACITY - showing - 1;
+    }
+
+    int need = Full_Main - mainRest - mainLoading + antiLoading;// 计算还差多少才能到Full
+    if (need &gt; 0) {
+        // 先cancel再add
+        if (antiLoading &gt; 0) {
+            LoadTask task;
+            //先用  tasksManager.getLloadingCount()，tasksManager.getRloadingCount()这些来
+            //判断，再for
+            for (int i = tasksManager.tasksQueue.size() - 1; i != -1
+                    &amp;&amp; need &gt; 0; i--) {
+                task = tasksManager.tasksQueue.get(i);
+                if (task.info.toward == -toward) {
+                    task.isCanceled = true;
+                    tasksManager.removeTask(task);
+                    need -= task.info.getCount();
+                    if (-1 == toward) {
+                        diskPointer_l = getRightIndex(diskPointer_l,
+                                task.info.getCount());
+                    } else {
+                        diskPointer_r = getLeftIndex(diskPointer_r,
+                                task.info.getCount());
+                    }
+                    print("cancel: " + task.info.getLoadIndex()
+                            + "diskPointer_l:" + diskPointer_l
+                            + ",diskPointer_r:" + diskPointer_r);
+                }
+            }
+        }
+        // 还是大于0，add吧
+        if (need &gt; 0) {
+            LoadInfo[] infos = new LoadInfo[] { new LoadInfo(need, toward) };
+            infos[0].setLoadIndexs(getDiskPointer(toward), need);
+            if (-1 == toward) {
+                diskPointer_l = getLeftIndex(diskPointer_l, need);
+            } else {
+                diskPointer_r = getRightIndex(diskPointer_r, need);
+            }
+            print("add:" + infos[0].getLoadIndex() + "diskPointer_l:"
+                    + diskPointer_l + ",diskPointer_r:" + diskPointer_r);
+            return infos;
+        }
+    } else {// need &lt; 0,反向了
+            // 先cancel再add
+        if (mainLoading &gt; 0) {
+            LoadTask task;
+            for (int i = tasksManager.tasksQueue.size() - 1; i != -1
+                    &amp;&amp; need &gt; 0; i--) {
+                task = tasksManager.tasksQueue.get(i);
+                if (task.info.toward == toward) {
+                    task.isCanceled = true;
+
+                    tasksManager.removeTask(task);
+                    need += task.info.getCount();
+                    if (-1 == toward) {
+                        diskPointer_l = getRightIndex(diskPointer_l,
+                                task.info.getCount());
+                    } else {
+                        diskPointer_r = getLeftIndex(diskPointer_r,
+                                task.info.getCount());
+                    }
+                    print("cancel: " + task.info.getLoadIndex()
+                            + "diskPointer_l:" + diskPointer_l
+                            + ",diskPointer_r:" + diskPointer_r);
+                }
+            }
+        }
+        // 还是小于0，add吧
+        if (need &lt; 0) {
+            LoadInfo[] infos = new LoadInfo[] { new LoadInfo(-need, -toward) };
+            infos[0].setLoadIndexs(getDiskPointer(-toward), -need);
+            if (-1 == toward) {
+                diskPointer_l = getLeftIndex(diskPointer_l, -need);
+            } else {
+                diskPointer_r = getRightIndex(diskPointer_r, -need);
+            }
+            print("add:" + infos[0].getLoadIndex() + "diskPointer_l:"
+                    + diskPointer_l + ",diskPointer_r:" + diskPointer_r);
+            return infos;
+        }
+    }
+    return null;
+}
+</code></pre>
+
+<p>关键看函数开始的注释，由4条规则到最后只有一条规则，是一个思考的过程。文字只有短短几句，但这个过程还是耗时挺久的，所以保留了下来。</p>
+
+<p>关键是这句：<code>int need = Full_Main - mainRest - mainLoading + antiLoading;// 计算还差多少才能到Full</code>。mainRest指正向缓存还有多少，mainLoading指正向正在从disk load到内存中的数。antiLoading指反向的。可能会问，没有用同步控制，need的计算和LoadInfo的生成不是原子操作，不怕吗？不怕，因为load任务返回和need的计算在同一个线程。</p>
+
+<p>好了，计算好need后，就根据那条 先cancel 再add的规则进行，直到need=0</p>
+
+<p>这种实现方式始终会出现卡停的情况，所以不会很流畅，更加不可能出现用户快速滑动，快速旋转的情况了，而且实现方式复杂。在华为U9508下，这种实现方式还可以接受。</p>
+
+<h3>改进</h3>
+
+<p>一个产品不能只是做了出来，还要做得好！还有什么改进的地方呢？
+我们看到，组要阻塞的原因在于load图到变成bitmap。但是load图片到bitmap，其实是两个耗时操作。一个是io（从disk读file到内存），另一个是decode，把png解析成bitmap。如果是这样的话。我们可以做二级缓存。disk->png缓存->bitmap缓存->show。但是一级缓存已经那么复杂了。所以当时想到这个方法，但没有去实现。因为当时这个功能的项目被押后了。</p>
+
+<p><strong>方案二提出！</strong>
+我们看到，bitmap是缓存在内存中的。但是如果bitmap是放在显存中呢？那就不怕什么内存的OOM啦。经过查阅相关资料。决定用android自带的OpenGL es。想法是这样的。把png（后来查阅发现pkm的解码速度更快）一次性上传给GPU，由GPU去解码。转动角度直接换图片就好了</p>
+
+<h4>Version 2 Moon</h4>
+
+<p>我为这个方案二命名为Moon。</p>
+
+<p>并且决定，由尝试到真正实现，图标由</p>
+
+<p><img src="https://raw.githubusercontent.com/k-lam/orbit/master/old_ic_launcher.png" alt="" />
+变为
+<img src="https://raw.githubusercontent.com/k-lam/orbit/master/res/drawable-hdpi/ic_launcher.png" alt="" /></p>
+
+<p>源码：<a href="">orbit2_moon/Moon.java</a></p>
+
+<p>OpenGL es10的东西就没什么好说了，自己网上找学习资料。</p>
+
+<pre><code>final GestureDetector gd = new GestureDetector(this,
+            new GestureDetector.SimpleOnGestureListener() {
+                float lastDX;
+
+                @Override
+                public boolean onScroll(MotionEvent e1, MotionEvent e2,
+                        float distanceX, float distanceY) {
+                    lastDX += distanceX;
+                    int i = (int) (lastDX / disPerFrame);
+                    lastDX %= disPerFrame;
+                    if (i &gt; 0) {
+                        while (i-- != 0) {
+                            render.toLeft();
+                        }
+                    } else if (i &lt; 0) {
+                        while (i++ != 0) {
+                            render.toRight();
+                        }
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2,
+                        float velocityX, float velocityY) {
+                    // s = v * v / 2a
+                    int i = (int) (velocityX * velocityX / 500000 / disPerFrame);
+                    Log.i("debug", "velocityX:" + velocityX + " i:" + i);
+                    while (i-- != 0) {
+                        if (velocityX &gt; 0) {
+                            render.toLeft();
+                        } else {
+                            render.toRight();
+                        }
+                    }
+                    return true;
+                }
+
+            });
+
+Vector&lt;Integer&gt; msgs_index = new Vector&lt;Integer&gt;();
+public int toLeft() {
+        Log.i("debug", "toLeft");
+        if (++textureIndex &gt;= textures.length) {
+            textureIndex = 0;
+        }
+        msgs_index.add(textureIndex);
+        mGLSurfaceView.requestRender();
+        return textureIndex;
+}
+
+@Override
+public void onDrawFrame(GL10 gl) {
+        int index = textureIndex;
+        if (msgs_index.size() != 0) {
+            if (msgs_index.size() &gt;= 5) {
+                try {
+                    Log.e("debug", "skip frame");
+                    // 选择跳历史最旧的4帧是可以接受的，而且效果挺好
+                    index = msgs_index.remove(0);
+                    index = msgs_index.remove(0);
+                    index = msgs_index.remove(0);
+                    index = msgs_index.remove(0);
+                    index = msgs_index.remove(0);
+                } catch (Exception ex) {
+
+                }
+            } else {
+                index = msgs_index.remove(0);
+            }
+            if (msgs_index.size() &gt; 0) {
+                Log.d("debug", "remain:" + msgs_index.size());
+            }
+        } else {
+            Log.e("debug", "msg_index is empty");
+        }
+        mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[index]);
+        gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, 6,
+                GL10.GL_UNSIGNED_SHORT, indices);
+        Log.i("debug", "" + index);
+        if (msgs_index.size() != 0) {
+            mGLSurfaceView.requestRender();
+        }
+}
+</code></pre>
+
+<p>注意，GlSurfaceView有一个好处，onDrawFrame不是在UI线程执行的！所以在UI线程中捕捉到手指的移动，就要告诉onDrawFrame，去draw。如果是这样，实现很简单。就直接调用requestRenderer()就好了，为什么要搞那么复杂呢？</p>
+
+<h5>更好的交互：</h5>
+
+<p>如果直接调用requestRenderer()，那是什么结果？首先两个onTouch之间的调用时间是不可预知的。而且用户每次滑动的距离不一样。那样导致用户滑动的速度和转动的角度之间没有直接的关系！</p>
+
+<p><strong>一个好的交互应该是：滑动距离与转换角度之间是一个常数关系</strong>。</p>
+
+<p>如何做到呢？首先我们要问，用户希望转动多少距离，刚好能够转完一圈？这个距离用rdp来表示</p>
+
+<p>然后我们有n张图片，所以每滑动disPerFrame = r/n dp距离，就应该切换一张图片。</p>
+
+<p>对于onTouch的被调用时间不能预测问题，我们用lastDX来记录。每次都<code>lastDX += distanceX;</code>
+然后计算出，应该切换多少张图片，把这个数通过消息的方式发送到onDrawFrame。</p>
+
+<p>发送消息的方式是否似曾相识？没错，其实就是多线程协作的生产者消费者模式。是为了解决执行速度不一致的问题的。</p>
+
+<p>Scroll的问题解决了，Fling的问题其实也挺好解决的，设置一个合适的加速度，</p>
+
+<p>S = a<em>t</em>t/2，t = v / a；就能计算出要换多少（s/disPerFrame）张图了。</p>
+
+<h5>应对卡停：skip frame</h5>
+
+<p>虽然速度是提升了好多，但是还是有变态的手速的！所以学android那样！跳帧！</p>
+
+<p>跳帧是什么呢？就是当前显示到第5帧，但是用户手速快，一下就切换到第20帧了，那样我们按照正常显示，要显示6-20帧的图片，用户就会觉得屏幕跟不上他手的速度，他就会心里暗爽！那怎样不让他暗爽呢？注意到，他突然加快速度，就是希望看到更后面的帧，所以中间的那些帧对他来说是无意义的。但是如果只显示第20帧，那样显示的交互也不大好。所以我们选择从中间抽掉一些帧，很快到达第20帧，但看起来不会“突然”跳到第20帧。</p>
+
+<p>这个在version 1中，是实现不了的，因为如果向左跳了，用户突然向右呢？所以用显存的解决方式比虚拟内存的方式优胜很多。</p>
+
+<p><a href="https://github.com/k-lam/orbit">源码下载</a></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
