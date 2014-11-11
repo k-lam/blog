@@ -126,7 +126,7 @@ API for performing a set of Fragment operations.
 	        ArrayList<Fragment> removed;
 	    }
 	
-	就是Operation
+	就是Operation，BackStackRecord实现Runnable，这些op将来就是在run中执行的。
 	
 		**addOp**
 	
@@ -217,7 +217,8 @@ API for performing a set of Fragment operations.
 	        }
 	    }
 
-	这里比较复杂，怎么办？我们从简单的分析起，假设
+	//这里比较复杂，怎么办？我们从简单的分析起，假设
+	分配一个index，把BackStackRecord的一个对象加入到mBackStackIndices中。mBackStackIndices是ArrayList<BackStackRecord>，就是我们说的BackStack了
 	
 		//ftaddBackStack(null)；//不执行这句，直接commit
 		ft.commit();

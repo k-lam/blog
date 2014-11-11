@@ -298,6 +298,9 @@ synchronized关键字的好处是简单，但是synchronized是不能查询锁�
 * CopyOnWriteArrayList
 
 ###一些工具类
+
+####ThreadLoacal<T>
+每个线程都有自己独立的对象，互不干扰
 ####CountDownLatch
 这个类就像一个闸门一样，await方法阻塞线程，用countDown()进行减操作，直到count = 0。阻塞的地方就可以继续执行了。
 
