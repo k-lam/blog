@@ -1,3 +1,131 @@
+##使用
+
+由使用的角度来看，property animation主要包括
+
+* 时间引擎
+* 插值
+* TypeEvaluator
+
+其实动画就是基于时间的函数变化。所以android框架提供一个时间引擎，这里可以认为是封装在ValueAnimator里，插值是什么？就是基于时间的f(t)函数，如加速，回弹这些效果，只需要用不同的插值函数就可以了。而TypeEvaluator是什么？就是为了让你定义自己的动画类型。
+
+整个计算过程是：时间变化()->插值->TypeEvaluator.evaluate()->ValueAnimator.getAnimatedValue()(-->ObjectAnimator)
+
+注：*由于为了运算方便 t clame to [0,1] ，这样转换成具体durantion，只需要乘数和偏移就可以了*
+
+###ObjectAnimator
+就是方便使用ValueAnimator，ValueAnimator只提供一个时间引擎，赋值要靠自己。而ObjectAnimator是可以帮你赋值的。具体看下面代码事例
+
+###AnimatorSet
+注意不是AnimationSet。就是把一set的动画统筹起来，那些一起运行的，哪些先运行，哪些要等待某个完成才运行，哪些要延迟，看下面实例
+
+	class ObjAnimation{
+        int translation;
+        View view;
+        float rotate;
+        float scale;
+        float alpha;
+
+        public ObjAnimation(View view) {
+            this.view = view;
+        }
+
+        public float getAlpha() {
+            return alpha;
+        }
+
+        public void setAlpha(float alpha) {
+            this.alpha = alpha;
+            view.setAlpha(alpha);
+        }
+
+        public float getRotate() {
+            return rotate;
+        }
+
+        public void setRotate(float rotate) {
+            this.rotate = rotate;
+            view.setRotation(rotate);
+        }
+
+        public float getScale() {
+            return scale;
+        }
+
+        public void setScale(float scale) {
+            this.scale = scale;
+            view.setScaleX(scale);
+            view.setScaleY(scale);
+        }
+
+        int getTranslation(){
+            return translation;
+        }
+
+        public void setTranslation(int translation) {
+            this.translation = translation;
+            view.setTranslationX(translation);
+            //Log.i("anim1",translation + "");
+        }
+    }
+
+		//调用
+		ObjAnimation objAnim = new ObjAnimation(view);
+        ObjectAnimator animT = ObjectAnimator.ofInt(objAnim,"translation",0,1000,0);
+        ObjectAnimator animR = ObjectAnimator.ofFloat(objAnim,"rotate",0,1800,0);
+        ObjectAnimator animA = ObjectAnimator.ofFloat(objAnim,"alpha",1f,0f,1f);
+        ObjectAnimator animS = ObjectAnimator.ofFloat(objAnim,"scale",1f,0f,1f);
+        final AnimatorSet animSet = new AnimatorSet();
+
+        animSet.setDuration(5000);
+        animSet.play(animT).with(animA).with(animS).before(animR);
+        //animSet.setInterpolator(new AnticipateOvershootInterpolator(2.0f));
+		animSet.start();
+
+###[Animating Layout Changes to ViewGroups](http://developer.android.com/guide/topics/graphics/prop-animation.html#layout)
+
+这个动画具体用[LayoutTransition](http://developer.android.com/reference/android/animation/LayoutTransition.html)这个类
+
+先来看一个例子：
+
+<div style="max-width:640px; margin:0 auto 32px;" >
+<div 
+style="position: relative; 
+width:100%;
+padding-bottom:56.25%; /* 16:9 */ 
+height:0;">
+<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;" src="http://developer.android.com/training/animation/anim_layout_changes.mp4" frameborder=0 allowfullscreen>
+</iframe>
+</div>
+</div>
+
+这个LayoutTransition就是用来控制，ViewGroup中的view出现和消失时的动画。最最简单的做法就是在ViewGroup的xml中加上`android:animateLayoutChanges="true"`因为有默认的实现，当然可以自己实现，这里to be continuted...
+
+
+###[Keyframes](http://developer.android.com/guide/topics/graphics/prop-animation.html#keyframes)
+关键帧。这个是用来设置一个属性动画有哪些关键帧，当然，如果你想设置一个btn先逆时针转5圈，在顺时针转5圈，可以用ObjectAnimator.ofFloat来实现，但是没办法分开设置插值。例子：
+
+	    Keyframe keyframe0 = Keyframe.ofFloat(0f,0f);
+        Keyframe keyframe1 = Keyframe.ofFloat(0.3f,1800f);
+        keyframe1.setInterpolator(new AccelerateDecelerateInterpolator());
+        Keyframe keyframe2 = Keyframe.ofFloat(0.6f,-1800f);
+        keyframe2.setInterpolator(new AnticipateOvershootInterpolator());
+        Keyframe keyframe3 = Keyframe.ofFloat(1f,1800f);
+        keyframe3.setInterpolator(new DecelerateInterpolator());
+
+        PropertyValuesHolder pvh = PropertyValuesHolder.ofKeyframe("rotate",keyframe0,keyframe1,keyframe2,keyframe3);
+        //PropertyValuesHolder pvh = PropertyValuesHolder.ofKeyframe("rotate",Keyframe.ofFloat(0f,0f),keyframe3);
+        final ObjectAnimator rotationAnim = ObjectAnimator.ofPropertyValuesHolder(objAnim, pvh);
+        rotationAnim.setDuration(10000);
+
+记住第一个最好是`Keyframe.ofFloat(0f,0f);`因为keyframe代表的是点，而不是两点间的间隔！所以PropertyValuesHolder.ofKeyframe至少传入连个keyframe，如果要3段变化，至少要传入4个keyframe。同时当前`keyframe.setInterpolator`指的是上一个frame到当前frame的插值
+
+
+好了，到这里可能有点乱了，注意Property，这个Property指的是rotate,scale,alpha,translate，自定义这些，KeyFrame和PropertyValuesHolder只能对应一种
+property。一个property的变换组成一个动画Animator，多个Animator组成AnimatorSet
+
+###[Animating Views](http://developer.android.com/guide/topics/graphics/prop-animation.html#views)
+
+
 ###ValueAnimator
 
 >This class provides a simple timing engine for running animations which calculate animated values and set them on target objects.
@@ -199,11 +327,16 @@ AnimationHandler中获得`Choreographer`对象：
 
 >Applications typically interact with the choreographer indirectly using higher level abstractions in the animation framework or the view hierarchy. Here are some examples of things you can do using the higher-level APIs.
 
->To post an animation to be processed on a regular time basis synchronized with display frame rendering, use start().
-To post a Runnable to be invoked once at the beginning of the next display frame, use postOnAnimation(Runnable).
-To post a Runnable to be invoked once at the beginning of the next display frame after a delay, use postOnAnimationDelayed(Runnable, long).
-To post a call to invalidate() to occur once at the beginning of the next display frame, use postInvalidateOnAnimation() or postInvalidateOnAnimation(int, int, int, int).
-To ensure that the contents of a View scroll smoothly and are drawn in sync with display frame rendering, do nothing. This already happens automatically. onDraw(Canvas) will be called at the appropriate time.
+>* To post an animation to be processed on a regular time basis synchronized with display frame rendering, use start().
+>
+* To post a Runnable to be invoked once at the beginning of the next display frame, use postOnAnimation(Runnable).
+
+
+>* To post a Runnable to be invoked once at the beginning of the next display frame after a delay, use postOnAnimationDelayed(Runnable, long).
+
+>* To post a call to invalidate() to occur once at the beginning of the next display frame, use postInvalidateOnAnimation() or postInvalidateOnAnimation(int, int, int, int).
+>
+* To ensure that the contents of a View scroll smoothly and are drawn in sync with display frame rendering, do nothing. This already happens automatically. onDraw(Canvas) will be called at the appropriate time.
 However, there are a few cases where you might want to use the functions of the choreographer directly in your application. Here are some examples.
 
 >If your application does its rendering in a different thread, possibly using GL, or does not use the animation framework or view hierarchy at all and you want to ensure that it is appropriately synchronized with the display, then use postFrameCallback(Choreographer.FrameCallback).
@@ -400,10 +533,20 @@ reinterpret_cast是C++里的强制类型转换符，但是怎么可以把一个i
 
 
 
-
-
 ###垂直同步
 
 垂直同步又称场同步（Vertical Hold），从CRT显示器的显示原理来看，单个象素组成了水平扫描线，水平扫描线在垂直方向的堆积形成了完整的画面。显示器的刷新率受显卡DAC控制，显卡DAC完成一帧的扫描后就会产生一个垂直同步信号。我们平时所说的打开垂直同步指的是将该信号送入显卡3D图形处理部分，从而让显卡在生成3D图形时受垂直同步信号的制约。
 
+
+###橡皮筋效果
+iphone上面提供的fling之后，那个慢慢停下的动作可是给人流畅的效果。
+
+一开始以为是恒定的加速度来减速。但实验的效果是，在最后又"骤停"的效果，排除了机器刷新，FPS等可能的影响，再查看`ScrollView`的实现，发现原来人家用的是橡皮筋效果，就是加速度其实是随着路程的增加而变大。
+
+如果是layout要实现橡皮筋效果，在android中直接用`ScrollView`
+
+http://developer.android.com/training/gestures/scroll.html
+
+
+ The scroller itself doesn't actually draw anything. Scrollers track scroll offsets for you over time, but they don't automatically apply those positions to your view. It's your responsibility to get and apply new coordinates at a rate that will make the scrolling animation look smooth.
 
