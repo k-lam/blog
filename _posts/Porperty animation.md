@@ -126,6 +126,11 @@ property。一个property的变换组成一个动画Animator，多个Animator组
 ###[Animating Views](http://developer.android.com/guide/topics/graphics/prop-animation.html#views)
 
 
+###[XML中定义](http://developer.android.com/guide/topics/graphics/prop-animation.html#declaring-xml)
+
+###Interpolator
+关注一下PathInterpolator这个类，to be contituned
+
 ###ValueAnimator
 
 >This class provides a simple timing engine for running animations which calculate animated values and set them on target objects.
