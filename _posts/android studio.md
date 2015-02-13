@@ -95,6 +95,10 @@ runtime
 The dependencies required by the production classes at runtime. By default, also includes the compile time dependencies.
 
 
+###open an existing project
+必须要有.idea文件
+
+
 KL快捷键
 
 修改注释doc shift + alt + d
