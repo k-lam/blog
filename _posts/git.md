@@ -19,6 +19,12 @@ git commit -m "Initial commit"
 # Show the log file
 git log
 
+常用这个：git log --graph --oneline
+
+查看未来的 
+
+git reflog --oneline 
+
 #查看自上一次commit后的修改
 git status（工作区和版本库的区别）
 
@@ -51,6 +57,8 @@ git checkout branch
 除了通过完整的URL来访问Git仓库外，还可以通过git remote add命令为仓库添加一个短名称。当你克隆了一个仓库以后，origin表示所克隆的原始仓库。即使我们从零开始，这个名称也存在。 
 
 #还原
+
+常用 git reset --hard c63b6
 git checkout commit_name  git revert commit_name  git reset
 git checkout c63b6 (5位就可以了)
 
@@ -122,6 +130,7 @@ Solution
     	git commit -m "removing files from version control"
 
 ##添加到远程仓库
+git remote add origin git@server-name:path/repo-name.git
 
 ###设置本地和远程的分支相关联
 设置dev和origin/dev的链接：
@@ -149,3 +158,12 @@ If you want a list of files that ever existed (i.e. including deleted files):
 
 ###关于track
 http://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository
+
+
+###对比两个不同
+1. 对比两个commit的不同：git diff hashcode1 hashcode2 如：git diff 
+
+###子模块
+git submodule
+
+https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97
