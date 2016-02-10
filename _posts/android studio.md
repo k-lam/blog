@@ -75,7 +75,15 @@ http://www.gradle.org/docs/1.2/userguide/dependency_management.html#sub:project_
 考虑一种情况，我有一个project，是作为一个lib被引用的，而且要方便修改，怎样做呢？
 建立这个project，这个project下建一个叫A的module
 在要引用的project，file->import module，把A导入，如果在其他地方修改了，只需要sync...就能同步了
+
+看这里-》
+ [here](http://stackoverflow.com/questions/22243269/how-to-share-a-single-library-source-across-multiple-projects)
 ###Gradle
+
+[Gradle基础](http://stormzhang.com/devtools/2014/12/18/android-studio-tutorial4/)
+
+本机安装目录 ： C:\Users\Administrator\.gradle\wrapper\dists
+
 android studio中gradle的版本查看：
 打开project（不是module）下的build.gradle，里面会有一句。
 
@@ -95,7 +103,32 @@ runtime
 The dependencies required by the production classes at runtime. By default, also includes the compile time dependencies.
 
 
-KL快捷键
+###open an existing project
+必须要有.idea文件
+
+
+###KL快捷键
 
 修改注释doc shift + alt + d
 xml中查看图片 ctrl + shift + I
+
+mac:
+
+http://ask.android-studio.org/?/article/38
+
+cmd + r 在当前编辑器中搜索并替换，cmd + shift + r 就是全局搜索替换
+
+###Problem:Multiple dex files define
+http://stackoverflow.com/questions/22851103/android-studio-gradle-error-multiple-dex-files-define
+
+http://blog.csdn.net/hyr83960944/article/details/41825087
+
+
+>>provided - compile-time only dependency
+package - package-time only dependency
+compile - compile-time and package-time dependency
+provided is commonly used for annotation processing based libraries. Usually these libraries are separated in two artifacts - "annotation" and "compiler". "compiler" is provided dependency because you do not need to use it in application, only for compilation; and "annotation" is compile dependency - it is used in application code and therefore compiles. Or generated code may require additional dependencies while your application may not. E.g. dagger dependencies configuration:
+
+
+	compile 'com.squareup.dagger:dagger:1.2.2'
+	provided 'com.squareup.dagger:dagger-compiler:1.2.2'

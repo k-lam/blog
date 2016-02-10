@@ -12,10 +12,10 @@
 
 注：*由于为了运算方便 t clame to [0,1] ，这样转换成具体durantion，只需要乘数和偏移就可以了*
 
-###[ObjectAnimator](http://developer.android.com/reference/android/animation/ObjectAnimator.html)
+###ObjectAnimator
 就是方便使用ValueAnimator，ValueAnimator只提供一个时间引擎，赋值要靠自己。而ObjectAnimator是可以帮你赋值的。具体看下面代码事例
 
-###[AnimatorSet](http://developer.android.com/reference/android/animation/AnimatorSet.html)
+###AnimatorSet
 注意不是AnimationSet。就是把一set的动画统筹起来，那些一起运行的，哪些先运行，哪些要等待某个完成才运行，哪些要延迟，看下面实例
 
 	class ObjAnimation{
@@ -555,3 +555,4 @@ http://developer.android.com/training/gestures/scroll.html
 
  The scroller itself doesn't actually draw anything. Scrollers track scroll offsets for you over time, but they don't automatically apply those positions to your view. It's your responsibility to get and apply new coordinates at a rate that will make the scrolling animation look smooth.
 
+>>>>>>> 69798141f5be0e553e67791f2a5ed727a3e04e4a

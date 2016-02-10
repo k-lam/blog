@@ -113,6 +113,11 @@ java提供了这种方法，来实现我们这种想法，用JMM来描述，具�
 2. 执行代码，改变共享变量值 (use and assign)
 3. 用工作内存数据刷新主存相关内容 (store and write)
 
+###Thread state 的转化
+
+[![image](http://)]
+
+
 
 ###Volatile
 很多地方说，volatile变量是提供一种轻量的同步机制。这个轻量同步机制是什么意思呢？
@@ -563,6 +568,8 @@ ThreadLocal这个类是关键，看看
 		};		
 
 至此，Handler的sendMsg和怎么执行已经分析完毕
+
+[更多](http://stackoverflow.com/questions/15538270/handlers-initialized-with-looper-getmainlooper-does-not-respond-to-message-cal)
 
 ##HandlerThread
 根据官方文档，说这个是一个
