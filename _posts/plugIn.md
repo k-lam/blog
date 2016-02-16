@@ -64,3 +64,6 @@ com.morgoo.hook
 	FieldUtils.writeStaticField(cls, "gDefault", proxiedActivityManager);
 	
 这样hook了系统的gDefault，因为这个field是static的单例！
+
+
+Android instrumentation is a set of control methods or "hooks" in the Android system. These hooks control an Android component independently of its normal lifecycle. They also control how Android loads applications.引用自[Testing Fundamentals](https://developer.android.com/intl/in/tools/testing/testing_android.html)
