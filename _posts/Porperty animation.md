@@ -555,3 +555,4 @@ http://developer.android.com/training/gestures/scroll.html
 
  The scroller itself doesn't actually draw anything. Scrollers track scroll offsets for you over time, but they don't automatically apply those positions to your view. It's your responsibility to get and apply new coordinates at a rate that will make the scrolling animation look smooth.
 
+>>>>>>> 69798141f5be0e553e67791f2a5ed727a3e04e4a

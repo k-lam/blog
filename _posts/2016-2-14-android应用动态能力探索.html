@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2016-2-14-android应用动态能力探索</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>背景</h1>
+<ol>
+<li>万表网是电商，电商讲求<strong>强运营</strong>，经常要发布新内容，如新的活动。</li>
+<li>修bug</li>
+<li>app大到一定的程度，编译都要很久，这时候要考虑<strong>插件化</strong>。</li>
+</ol>
+<p>对上面的情况，我们提出，app必须要有动态的能力。所谓动态的能力是指，突破重新安装新app才能修改&quot;内容&quot;的限制，下面就说说几种实现方式</p>
+<h1>实现</h1>
+<h2>一些实现方式简介</h2>
+<ol>
+<li>模板，配置</li>
+<li>html</li>
+<li>脚本，如lua</li>
+<li>热部署，如插件，osgi</li>
+</ol>
+<h3>模板，配置</h3>
+<p>这个应该是大多数强调强运营都具有的能力。譬如首页提供几种写死的展示模板，运营人员在后台配置不同的图片，文字，然后app每次打开之前都先请求服务器，然后显示最新内容。</p>
+<ul>
+<li>优点：实现简单，写好一次后，不容易出bug</li>
+<li>缺点：表现能力有限，紧限于那几种模板，要添加，修改新模板，要重新安装。</li>
+</ul>
+<h3>html</h3>
+<p>就是混合开发了，这也是很多电商app选择的方式，特别是商品详情页。京东，天猫也选用这种方式。</p>
+<ul>
+<li>优点：html的开发比原生快很多，而且有bug可以马上修复</li>
+<li>缺点：网速，网速，网速。在网速差的情况下，就是一整屏的白屏，而交互，html肯定比不上原生，html和原生交互需要联合测试</li>
+</ul>
+<p>但是对于缺点，也是有解决方法的。譬如网速慢，可以用spdy协议，又譬如第一屏用原生，以下的内容才用html</p>
+<h3>脚本语言</h3>
+<p>游戏是经常要修改内容的，而他们用的是lua，但是他们是引擎带了解释器。而android原生方面，android使用lua，几个开源框架都没有很多的支持，所以还是不敢用于商业项目。而且团队没有人会lua，技能培养需要时间。</p>
+<h3>插件化，热部署</h3>
+<p>这个是已有实现方案的，把这些方案分为两类</p>
+<ol>
+<li>360的DroidPlugin</li>
+<li>其他通过classloader来导入其他包的类来实现动态</li>
+</ol>
+<p>360的很有趣，可以不安装就能执行。他们是hook掉了ActivityThread的Handler等一系列处理Intent的来实现不安装就能执行的</p>
+<p>而classloader能实现热部署，是因为java语言的类&quot;连接&quot;机制是发生在运行阶段，不像c，是编译时间。简单说一下，java代码通过javac编译后，只是包含了自己的类代码，并没有连接引用类的代码。那依赖的类是怎样寻找（连接）的呢？就是通过运行的时候，通过classloader来把依赖的类代码连接过来的。</p>
+<h3>其他</h3>
+<p>其实阿里还有一个热修复框架<a href="https://github.com/alibaba/AndFix">AndFix</a></p>
+<h2>万表的实现</h2>
+<p>万表选择使用混合开发加插件化。为什么选择这样的方案？其实问题是什么才是最好的方案？当然是最适合团队的方案。这根每个公司人员配置，技术特长有关。</p>
+<h3>混合开发</h3>
+<p>混合开发就是js和原生代码能通讯，上网搜一下jsbridge就能找到。其实就是建立js向java发送信息（iframe.src或者alert），java向js发送信息（webview.loadurl(&quot;javascript:&quot;)）的信息。两边建立消息队列。</p>
+<p>然后java定义向js提供的接口。</p>
+<p>但是webview是提供的callback是很有限的。譬如Document什么时候load完，是没有提供的。但是js可以通知java什么时候document已经load完了。而java需要通知html，onPause,onStop,onResume等这些事件。</p>
+<p>原生向js提供什么接口？</p>
+<ul>
+<li>分享</li>
+<li>支付</li>
+<li>网络访问</li>
+<li>等等</li>
+</ul>
+<p>注意，html有域的问题。所以如果能用原生的网络访问，那就更自由了，而且可以复用原生的连接。而且可以统一管理。譬如2g 3g的情况下访问不同质量的图片。做法就是<code>shouldInterceptRequest</code>这个方法，但是这个方法返回的是<code>WebResourceResponse</code>,不存在回调，也就是网络访问的时候必须阻塞！我们的做法是，如果resource不在缓存中，返回占位图，然后异步访问资源，再通过JavaScript通知重新设置资源。</p>
+<p>测试：server下的一个page，把一个img的src设成file:///的，看看有没有跨域问题。如果可以上面的做法，resource回来后回调直接把src设成file:///的就可以了，如果不是，需要reload这个img的src，再通过<code>shouldInterceptRequest</code>这个方法返回</p>
+<h3>组件化</h3>
+<p>我们是打算做成组件，各组件之间是通过Intent或EventBug来通讯。不直接进行代码调用。暂时没有做进程隔离。</p>
+<p>我们对代码进行如下归类：</p>
+<ol>
+<li>wbSDK</li>
+<li>MainFrame</li>
+<li>组件1，组件2...</li>
+</ol>
+<p>把MainFrame和wbSDK合并。如果是这两部分进行修改，需要重新发布新版本。各个组件依赖于wbSDK。如果团队有人力，可以研究编译时，怎么把组件的wbSDK代码不要打包到dex里面。</p>
+<p>好了，具体怎么通过classloader来实现呢？最好的方法是hook掉application的默认classloader，修改里面的内容。这样的好处是，不需要修改任何的编程方式，不需要每次new一个对象的时候，还要考虑这个类是在哪个组件里面的。我们注意到，MultiDex这个东西，是google提供的，因为默认一个dex只能有65536个方法，为了突破这个限制，google搞出了multiDex这东西，具体<a href="http://developer.android.com/tools/building/multidex.html">链接</a>.我们可以参照MultiDex的源码实现。其实就是把组件的dex路劲添加进PathClassLoader.</p>
+<p>对于Resource的解决方法，网上很多，也是把路径写入AssetManager里面。</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
