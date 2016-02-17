@@ -1,8 +1,20 @@
-前言：自己做一些喜欢的东西是很有趣的事情，建立模型，建立规则，不断学习。譬如发现，动画其实就是基于时间的函数！齐次坐标为什么要把原点设在中心。这种探索，发现，模拟的过程真的很赞。一开始觉得创作点东西，后来才明白，我们从来没创造过，只是发现了原理，然后compose出来
+前言：自己做一些喜欢的东西是很有趣的事情，建立模型，建立规则，不断学习。譬如发现，动画其实就是基于时间的函数！齐次坐标为什么要把原点设在中心。这种探索，发现，模拟的过程真的很赞。一开始觉得是创作，后来才明白，我们从来没创造过，只是发现了原理，然后compose出来。
 
 ##App : Snow
 ###background
 Christmas gift
+
+###效果展示
+
+![贺卡](https://raw.githubusercontent.com/k-lam/blog/gh-pages/image/snow/Screenshot_2016-02-13-23-42-00.png)
+
+![雪1](https://raw.githubusercontent.com/k-lam/blog/gh-pages/image/snow/Screenshot_2016-02-13-23-42-49.png)
+
+![雪2](https://raw.githubusercontent.com/k-lam/blog/gh-pages/image/snow/Screenshot_2016-02-13-23-43-04.png)
+
+[展示视频下载链接](https://raw.githubusercontent.com/k-lam/blog/gh-pages/image/snow/snow.mp4)
+
+[源码](https://github.com/k-lam/Snow2)
 
 ###难点与分解
 * 2D的图片，怎么才能有一点立体的效果
