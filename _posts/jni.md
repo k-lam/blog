@@ -117,6 +117,10 @@ An Android.mk file is a small build script that you write to describe your sourc
 ####调试
 `<ndk>/docs/NDK-GDB.html`
 
+ndk-build NDK_DEBUG=1    编译出的共享库带调试信息，是debug版本
+
+ndk-build NDK_DEBUG=0    编译出的共享库不带调试信息，是release版本
+
 
 ####方法注册
 #####静态

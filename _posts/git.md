@@ -24,14 +24,16 @@ git log
 查看未来的 
 
 git reflog --oneline 
+#查看修改
 
-#查看自上一次commit后的修改
+##查看自上一次commit后的修改
 git status（工作区和版本库的区别）
 
 >Displays paths that have differences between the index file and the current HEAD commit, paths that have differences between the working tree and the index file, and paths in the working tree that are not tracked by Git (and are not ignored by gitignore(5)). The first are what you would commit by running git commit; the second and third are what you could commit by running git add before running git commit.
 
 
-#查看某文件具体被修改什么
+##查看某文件具体被修改什么
+###查看文件工作区和上次commit的区别
 git diff readme.txt (查看工作区和版本库的区别)
 ###查看两个commit之间同一个文件的区别
  git diff $start_commit..$end_commit -- path/to/file
@@ -84,6 +86,8 @@ git add xxx
 （后来添加上.gitignore的）
 git rm --cached filename
 注意，这个push后，服务器上相对应的文件会被删掉
+
+###删除branch
 
 ##关于ignore
 
