@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>app for fun</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>前言：自己做一些喜欢的东西是很有趣的事情，建立模型，建立规则，不断学习。譬如发现，动画其实就是基于时间的函数！齐次坐标为什么要把原点设在中心。这种探索，发现，模拟的过程真的很赞。一开始觉得是创作，后来才明白，我们从来没创造过，只是发现了原理，然后compose出来。</p>
+<h2>App : Snow</h2>
+<h3>background</h3>
+<p>Christmas gift</p>
+<h3>难点与分解</h3>
+<ul>
+<li>2D的图片，怎么才能有一点立体的效果</li>
+<li>下雪的动画</li>
+<li>怎么循环出现，在哪里出现，雪花的分布</li>
+</ul>
+<h4>立体的效果</h4>
+<ol>
+<li>我发现，图片对于Z轴的偏移不能超过30度，这样就会有一点立体的感觉</li>
+<li>离屏幕越远，大小和透明度同时变小</li>
+</ol>
+<h4>下雪的动画</h4>
+<p>雪是 <strong>飘</strong> 下来的，而且我想给它一点活跃的感觉</p>
+<p>1.定义了6种动画，出现和消失，增加跳跃感。直接上代码吧</p>
+<pre><code>public AnimatorSet pickOne(float fdis,int fdur,int rn,int srn,int sn,int ld,int duration){
+    int n = SnowGenerator.random(0,5);
+       // n = 2;
+    AnimatorSet animatorSet = new AnimatorSet();
+    AnimatorSet.Builder builder = animatorSet.play(getFadeIn());
+    switch (n) {
+        case 0://左下飘
+            builder.with(getFloatDown(fdis, fdur)).with(getFloatLeft(ld).setDuration(duration));
+            break;
+        case 1://旋转下降
+            builder.with(getFloatDown(fdis, duration)).with(getRotation(rn,duration));
+            break;
+        case 2://缩放
+            builder.with(getFloatDown(fdis, fdur)).with(getScale(sn,duration));
+            break;
+        case 3://向左缩放
+            builder.with(getFloatDown(fdis, fdur)).with(getScale(1,duration)).with(getFloatLeft(ld / 2));
+            break;
+        case 4://surround  有点傻逼,不飘落会更漂亮,但必须在屏幕中间区域
+            //builder.with(getFloatDown(fdis, fdur)).with(getSurround(srn));
+            view.setY(view.mfy * 1.5f);
+            builder.with(getSurround(srn).setDuration(duration));
+            break;
+        case 5://左右转  左右切换的时候太生硬了
+            builder.with(getFloatDown(fdis, fdur)).with(getTRotation().setDuration(duration));
+            break;
+        //case  6://alpha 试试和2一起
+            //builder.with(getAlpha(3)).with(getFloatDown(fdis,fdur));
+            //break;
+    }
+       // animatorSet.setDuration(duration);
+    builder.with(getFadeOut(duration - 500));
+       // AnimatorSet animatorSet1 = new AnimatorSet();
+    //animatorSet1.play(animatorSet).before(getFadeOut());
+
+    return animatorSet;
+}
+</code></pre>
+
+<h4>怎么循环出现，在哪里出现，雪花的分布</h4>
+<p>怎么出现？怎么循环？read the fucking source。
+雪花的分布，这个可以考究一下。一开始用均匀分布。后来总觉得，应该屏幕中间应该多一点雪花。想到了自然分布（怎么由均匀分布转换成自然分布或其他分布，google找公式吧）。结果不理想，然后就还是用均匀分布了。</p>
+<h4>总结：</h4>
+<p>建模是很好玩的东西，主要是花时间在调整动画的参数上面</p>
+<h2>App : Star</h2>
+<h3>背景</h3>
+<p>刚认识一个女孩，知道她看电影《小王子》。我去看了后，觉得里面的星星场景好漂亮，于是告诉她，我想做这么一个锁屏（邪恶的笑容）。。。于是，项目开始了</p>
+<h3>难点与分解</h3>
+<ul>
+<li>锁屏，这个好解决，网上很多</li>
+<li>星星闪烁</li>
+<li>星星在天空中的分布</li>
+</ul>
+<p>通过做圣诞节app，我知道，我无法解决素材问题，所以还是上网搜索星星的图标，然后通过控制亮度<code>ColorMatrix</code></p>
+<p>闪烁的效果可以接受，但是有一个问题，没有空间感！而且找回来的星星，效果不怎样。两种方案</p>
+<ol>
+<li>3D模型，用openGL。但是要自己建3D模型</li>
+<li>2.5D，但是坐标系，投影，模拟模型要自己搞</li>
+</ol>
+<p>对于建3D模型这件事，我还是放弃了，因为最基本的设计我都不会，还要搞3D的。。。所以选择方案二</p>
+<p>2.5D？这显然不是一个编程难题，通过之前做手表试戴的经验。我决定找设计帮忙。在我的诱惑下，设计告诉了我如下几点</p>
+<ul>
+<li>如果有一颗星星感觉上是近一点的，设计上，他旁边的星星应该饱和度低一点。</li>
+<li>远一点的星星可以适当调低一点透明度</li>
+<li>为了逼真一点，要做边缘模糊</li>
+</ul>
+<p>于是，我就在设计师的指导下，开始ps之路</p>
+<p><img src="https://raw.githubusercontent.com/k-lam/blog/gh-pages/image/kstar00.png" alt="star1" />
+<img src="https://raw.githubusercontent.com/k-lam/blog/gh-pages/image/kstar2.png" alt="star2" /></p>
+<p>这就是我的ps作品</p>
+<p>然后我们就开始了2.5D投影模型的建模之路</p>
+<h3>投影坐标系</h3>
+<p>这个我不是很担心，因为openGL的坐标系统很完善，我们模拟就是，实际上，也花了点功夫</p>
+<ul>
+<li>使用齐次坐标系，所以原点必须在中心</li>
+<li>通过far，near确定齐次坐标的第三个值</li>
+</ul>
+<h3>光强模型</h3>
+<p>我发现gl的光强模型是要确定三个参数，这三个参数为什么是自己定，而不是应该有物理公式确定的吗？于是我上网搜索了一下，发现物理上根本没有这个概念。然后偶然间，在NASA找到星星闪烁的原因是因为云层经过，遮挡了光线。呃。。。这样说，觉得根本不需要考虑不同距离的光衰减了。</p>
+<h3>分布模型</h3>
+<p>这个我是专门上知乎问了，<a href="https://www.zhihu.com/question/36974677?from=profile_question_card">传送门，开！</a></p>
+<p>其中</p>
+<blockquote>
+<p>旋涡星系的星星分布呈旋涡状，椭圆星系的星星分布呈椭球状，不规则星系的星星分布呈不规则状</p>
+</blockquote>
+<p>这些的确很有趣。</p>
+<p>一开始还考虑球体空间均匀分布投影到平面的情况。后来用上面的投影坐标系后，就简化模型了</p>
+<h2>没完成</h2>
+<p>为什么没完成？因为我发现，效果不好看。就简单的是，用小灯泡来闪，比你做这么一个app更加漂亮！</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
