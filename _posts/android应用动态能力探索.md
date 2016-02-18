@@ -83,7 +83,10 @@
 ####js向原生提供什么
 * document load完的通知，因为onPageFinish()这个方法。。。经常很久都不能返回
 
-**这一套东西，有机会会开源**
+jsbridge图解：
+![jsbridge图解](https://raw.githubusercontent.com/k-lam/blog/gh-pages/image/jsbridge.jpg)
+
+另外，如果要移动站和app端用同一套代码，那关于怎么做到seo友好，但是又静态页面加载动态内容，这一块真的不了解。
 
 ###组件化
 我们是打算做成组件，各组件之间是通过Intent或EventBug来通讯。不直接进行代码调用，这样组件间就能解耦了。暂时没有做进程隔离。
