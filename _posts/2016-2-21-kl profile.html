@@ -548,8 +548,8 @@ content:"...";
 								</div>
 								<div class="mr_content_m olpf">
 									<ol>
- <li ><p class="kl_next"><b>模拟试戴</b> 查看</p></li> <iframe class="iframeWin" style="border:none;display:block;width:600px;height:400px;border:1px solid black;display:none;" src="http://k-lam.github.io/blog/2014/10/20/Saving_activity_state.html"></iframe>
- <li><p><b>拍照识表(通过拍照，在服务器上找相似的表)</b></p></li>
+ <li class="kl_next"><p><b>模拟试戴</b> <a href="">点击查看</a></p></li> <iframe class="iframeWin" style="border:none;display:block;width:600px;height:400px;border:1px solid black;display:none;" src="http://k-lam.github.io/blog/2014/10/20/Saving_activity_state.html"></iframe>
+ <li class="kl_next"><p><b>拍照识表</b> <a href="">点击查看</a></p></li><iframe class="iframeWin" style="border:none;display:block;width:600px;height:400px;border:1px solid black;display:none;" src="http://k-lam.github.io/blog/2014/10/20/Saving_activity_state.html"></iframe>
  <li><p>全球比价</p></li>
  <li><p>快速对比</p></li>
 </ol>
@@ -557,7 +557,6 @@ content:"...";
 <ol>
  <li><p>android端项目架构，分配开发任务</p></li>
  <li><p><a target="_blank href="http://k-lam.github.io/blog/2016/02/14/demo.html#identify">识表</a>，<a target="_blank href="http://k-lam.github.io/blog/2016/02/14/demo.html#try_in">试戴</a>重点难点功能实现</p></li>
- <p>识表：</p>
 </ol>
 								</div>	
 								</div>	
@@ -565,7 +564,7 @@ content:"...";
 								<div class="clearfixs">
 									<div class="mr_content_l">
 										<div class="l2">
-											<a class="projectTitle"  target="_blank" href="https://github.com/k-lam/orbit/blob/master/bin/Orbit.apk"><span></span>360度表图</a>
+											<a class="projectTitle"  target="_blank" href="https://github.com/k-lam/orbit/blob/master/bin/Orbit.apk"><span></span>360度手表展示</a>
 											<p>个人独立开发</p>
 										</div>
 									</div>
@@ -579,9 +578,14 @@ content:"...";
 <br />解决两个难点：&nbsp;
 <br />1. 传输，30张图片太大。怎样压缩&nbsp;
 <br />2. 30张图片一次读入内容，占用44M以上内存，怎样读图片？&nbsp;
-<br />文档链接：http://k-lam.github.io/blog/2014/11/05/360%E5%BA%A6%E5%B1%95%E7%A4%BA.html&nbsp;
-<br />
-<br />源代码：https://github.com/k-lam/orbit
+<br /><a href="http://k-lam.github.io/blog/2014/11/05/360%E5%BA%A6%E5%B1%95%E7%A4%BA.html" target="_blank">实现文档</a>
+<br /><a href="https://github.com/k-lam/orbit" target="_blank">源代码</a>
+<p class="kl_next"><a href="" target="_blank" >视频展示（缓冲完再播放）</a></p>
+<video controls width="270" height="480" style="border:none;display:none">
+ 		 <source src="https://github.com/k-lam/blog/blob/gh-pages/image/orbit.mp4?raw=true" type="video/mp4">
+  I'm sorry; your browser doesn't support HTML5 video in WebM with VP8 or MP4 with H.264.
+  <!-- You can embed a Flash player here, to play your mp4 video in older browsers -->
+</video>
 <p><br /></p>
 								</div>	
 								</div>	
@@ -601,7 +605,13 @@ content:"...";
 								<div class="mr_content_m olpf">
 									<p>圣诞节下雪app，只是为了好玩，和送给女生。&nbsp;<br />首页是贺卡图片，然后进入一个下雪的页面&nbsp;</p>
 <p><br /></p>
-<p>文档介绍：http://k-lam.github.io/blog/2015/09/01/app-for-fun(%E6%8E%A8%E8%8D%90).html</p>
+<p><a href="http://k-lam.github.io/blog/2015/09/01/app-for-fun(%E6%8E%A8%E8%8D%90).html" target="_blank"">文档介绍</p>
+<p class="kl_next"><a href="">视频展示（缓冲完再播放）</a></p>
+<video controls width="270" height="480" style="border:none;display:none">
+ 		 <source src="https://github.com/k-lam/blog/blob/gh-pages/image/snow/snow.mp4?raw=true" type="video/mp4">
+  I'm sorry; your browser doesn't support HTML5 video in WebM with VP8 or MP4 with H.264.
+  <!-- You can embed a Flash player here, to play your mp4 video in older browsers -->
+</video>
 <p><br /></p>
 								</div>	
 								</div>	
@@ -872,6 +882,7 @@ content:"...";
 			});
 			
 			$(".kl_next").click(function(e){
+				// alert('111111')
 				$(this).next().toggle();
 				return false;
 			});
