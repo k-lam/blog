@@ -548,7 +548,7 @@ content:"...";
 								</div>
 								<div class="mr_content_m olpf">
 									<ol>
- <li><p><b>模拟试戴</b></p></li>
+ <li ><p class="kl_next"><b>模拟试戴</b> 查看</p></li> <iframe class="iframeWin" style="border:none;display:block;width:600px;height:400px;border:1px solid black;display:none;" src="http://k-lam.github.io/blog/2014/10/20/Saving_activity_state.html"></iframe>
  <li><p><b>拍照识表(通过拍照，在服务器上找相似的表)</b></p></li>
  <li><p>全球比价</p></li>
  <li><p>快速对比</p></li>
@@ -869,6 +869,11 @@ content:"...";
 			});
 			$(document).click(function(){
 				$('.mr_down_tip').hide();
+			});
+			
+			$(".kl_next").click(function(e){
+				$(this).next().toggle();
+				return false;
 			});
 		})
 	</script>
