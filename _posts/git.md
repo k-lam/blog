@@ -26,6 +26,14 @@ git log
 git reflog --oneline 
 #查看修改
 
+###查看某一次commit修改了什么文件
+
+	git show --pretty="format:" --name-only 0429aba
+	
+###查看某一次commit的具体修改
+
+	git show 0429aba
+
 ##查看自上一次commit后的修改
 git status（工作区和版本库的区别）
 
@@ -43,6 +51,14 @@ git diff readme.txt (查看工作区和版本库的区别)
 [工作区和暂存区](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013745374151782eb658c5a5ca454eaa451661275886c6000)
 
 [管理修改](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001374829472990293f16b45df14f35b94b3e8a026220c5000)
+
+###两个branch的同一个文件区别
+
+
+git diff can show you the difference between two commits:
+
+git diff mybranch master -- myfile.cs
+
 
 2. 新建branch
 git branch branchname
@@ -81,6 +97,10 @@ git add xxx
 这个指令是：当你在工作目录做出修改后，修改是没有提交到object database的，这个指令就是用来提交的
 然后用git commit 指令  可以为object database最近一次提交创建一个树对象，并与这个commit关联起来，这个树对象就是用来版本管理的
 关于index git add  git commit详细见这几个东西  看http://www.gitguys.com/topics/whats-the-deal-with-the-git-index/
+
+###当文件版本修改
+
+	git checkout 0429aba paht/to/file
 
 ##删除原来tracked的
 （后来添加上.gitignore的）
