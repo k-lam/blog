@@ -25,6 +25,9 @@ Small.setUp这个方法就是加载插件的，后台线程LoadBundleThread加�
 2. hook ProGuard task,  加入混淆配置，加入公共库引用（难点，看源码+猜测，用了一些私有API，AppPlugin.groovy#294）
 3. 延迟分离R.class （坑点。。AppPlugin.groovy#298)
 
+第一点，可以看下@杭州-区长 的这篇文章，哈哈 http://blog.csdn.net/sbsujjbcy/article/details/50839263
+
+
 
 
 一个app plugin  如果依赖了appframework  就会出错
