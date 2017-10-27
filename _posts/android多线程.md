@@ -9,7 +9,7 @@
 
 1.  我们先看看一开始的程序设计，是顺序执行的，洗澡，煮饭，吃饭。但是你会发现，煮饭是电饭煲的事啊，于是我们就想到煮饭和洗澡同时进行，等到煮好饭，洗完澡就能吃饭。这样是不是更“省时”？
 
-2. 另外一个例子：两个程序员抢妹子(妹子默认是互斥资源，不共享)，那一个程序员抢到手后，另外一个只能等他两分手。（race Condition）
+2.  另外一个例子：两个程序员抢妹子(妹子默认是互斥资源，不共享)，那一个程序员抢到手后，另外一个只能等他两分手。（race Condition）
 
 上面第一个例子,我们就想到，能不能把两项任务同时进行？于是就出现了并发。并发虽然“省时”，但究竟是先煮好饭，还是先洗完澡呢？这是不确定的，所以这两项任务的执行，必须协作。
 
@@ -81,8 +81,8 @@ Bernstein提出
 				b = 2;
 			}
 		}).start();
-        
-       int c = a;
+	    
+	   int c = a;
 	   int d = b;
 
 c 和 d的值是不确定的，可能是(0,0) (0,2) (1,0) (1,2)。因为重排序的存在
@@ -139,7 +139,7 @@ java提供了这种方法，来实现我们这种想法，用JMM来描述，具�
 	static final int preAddCount = 5000;
 	static Object vLock = new Object();
 	static boolean useSync = false;
-
+	
 	public static void main(String[] args) {
 		testVi(30);
 	}
@@ -189,13 +189,13 @@ java提供了这种方法，来实现我们这种想法，用JMM来描述，具�
 
 四种方式   synchronized关键字
 
-   1. sychronized method(){}
+      1. sychronized method(){}
 
-   2. sychronized (objectReference) {/*block*/}
+      2. sychronized (objectReference) {/*block*/}
 
-   3. static synchronized method(){}
+      3. static synchronized method(){}
 
-   4. synchronized(classname.class)
+      4. synchronized(classname.class)
 
 可以看看`TestReadWriteLockWithSysnc` 和`TestReadWriteLockWithSysnc2`这两个类
 
@@ -206,7 +206,7 @@ wait()方法是，当获得了锁，发现现在条件还不满足下面的执�
 注意，notify是唤醒一个之前wait的。notifyAll是唤醒所有。
 
 可以看看`TestReadWriteLockWithSysnc` 和`TestReadWriteLockWithSysnc2`这两个类
-   
+
 ###显式锁
 实现了java.util.concurrent.locks.Lock这个接口
 
@@ -329,10 +329,10 @@ to be continued...
 
 1. android的UI渲染。
 
-	1. android没有专门的渲染线程
-	2. android接收事件的线程和主线程中
-	3. 要保证UI的流畅，必须保证UI线程不能执行太多的计算
-	
+  1. android没有专门的渲染线程
+  2. android接收事件的线程和主线程中
+  3. 要保证UI的流畅，必须保证UI线程不能执行太多的计算
+
 2. 多核处理器。如果一直用单线程的话，是无法提升app的速度。也就是说，手机怎么多核变快，也与你的app无关。你的app依然运行很慢
 
 所以在android中多线程尤为重要，而android中的多线程主要是把UI线程的任务交给其他线程，把计算分给各个线程。而不是像服务器那种处理多个请求的阻塞式多线程通讯的多线程。
@@ -344,20 +344,20 @@ to be continued...
 
 1. **放在一个`while(true){}`里**
 
-	但是你总不能让程序不断的`while(true)`轮训有没有事件吧，所以
+  但是你总不能让程序不断的`while(true)`轮训有没有事件吧，所以
 
 2. **一个阻塞机制**
 
-	那怎样唤醒这个阻塞呢？触摸屏幕怎样通知我们有触摸事件发生了呢？
+  那怎样唤醒这个阻塞呢？触摸屏幕怎样通知我们有触摸事件发生了呢？
 
 3. **消息机制**
-	
+
 以下就是简单的代码实现片段：
 
 	public class MessageBaseThread extends Thread {
-		
+
 		BlockingQueue<Runnable> mRunnableQueue = new ArrayBlockingQueue<Runnable>(10);
-		
+
 		public void sendRunnable(Runnable runnable){
 			try {
 				mRunnableQueue.put(runnable);
@@ -378,7 +378,7 @@ to be continued...
 			}
 		}
 	}
-	
+
 *完整代码在`MessageBaseThread`类中*
 
 在android中，UI线程是一个基于消息机制的线程。就是有消息来的时候，就执行，没消息来的时候，就阻塞。android屏幕的Touch，其他事件的发生，都是通过HAL通知window，window的ViewRoot通过消息机制通知UI线程的，其实就是发给MessageQueue，当Looper处理完上一个操作，就去看看MessageQueue有没有消息，有就处理。Handler就是用来发送Message甚至发送处理这个Message的程序（Runnable）的类。
@@ -401,15 +401,15 @@ to be continued...
 
 	程序1：
 	 public Handler() {
-        ...
-        mLooper = Looper.myLooper();
-        if (mLooper == null) {
-            throw new RuntimeException(
-                "Can't create handler inside thread that has not called Looper.prepare()");
-        }
-        mQueue = mLooper.mQueue;
-        ...
-    }
+	    ...
+	    mLooper = Looper.myLooper();
+	    if (mLooper == null) {
+	        throw new RuntimeException(
+	            "Can't create handler inside thread that has not called Looper.prepare()");
+	    }
+	    mQueue = mLooper.mQueue;
+	    ...
+	}
 
 
 Looper.myLooper()：
@@ -417,9 +417,9 @@ Looper.myLooper()：
 	程序2：
 	static final ThreadLocal<Looper> sThreadLocal = new ThreadLocal<Looper>();
 	public static Looper myLooper() {
-        return sThreadLocal.get();
-    }
-	
+	    return sThreadLocal.get();
+	}
+
 ThreadLocal这个类是关键，看看
 
 >Implements a thread-local storage, that is, a variable for which each thread has its own value. All threads share the same ThreadLocal object, but each sees a different value when accessing it, and changes made by one thread do not affect the other threads. The implementation supports null values.
@@ -430,24 +430,24 @@ ThreadLocal这个类是关键，看看
 
 	mLooper = Looper.myLooper();
 	if (mLooper == null) {
-            throw new RuntimeException(
-                "Can't create handler inside thread that has not called Looper.prepare()");
-        }
+	        throw new RuntimeException(
+	            "Can't create handler inside thread that has not called Looper.prepare()");
+	    }
 
 也就是说，在调用`mLooper = Looper.myLooper();`之前，必须先调用`Looper.prepare()`
 
 	 public static void prepare() {
-        if (sThreadLocal.get() != null) {
-            throw new RuntimeException("Only one Looper may be created per thread");
-        }
-        sThreadLocal.set(new Looper());
-    }
-
+	    if (sThreadLocal.get() != null) {
+	        throw new RuntimeException("Only one Looper may be created per thread");
+	    }
+	    sThreadLocal.set(new Looper());
+	}
+	
 	private Looper() {
-        mQueue = new MessageQueue();
-        mRun = true;
-        mThread = Thread.currentThread();
-    }
+	    mQueue = new MessageQueue();
+	    mRun = true;
+	    mThread = Thread.currentThread();
+	}
 
 原来MessageQueue在Looper里面，而且注意到Looper.prepare()是静态的，直接把Looper的实例存到线程相关的变量里面，这样我们就不用自己保存一个引用了，怪不得`mLooper = Looper.myLooper();`能直接获取一个线程相关的实例。好了，2和3解决了，Handler里面有一个ThreadLocal的Looper，Looper中有MessageQueue.
 
@@ -459,58 +459,58 @@ ThreadLocal这个类是关键，看看
 我们看看sendMessageAtTime这个方法，因为最后sendMessage族的方法，最后都是调用这个
 
 	 public boolean sendMessageAtTime(Message msg, long uptimeMillis) {
-        boolean sent = false;
-        MessageQueue queue = mQueue;
-        if (queue != null) {
-            msg.target = this;
-            sent = queue.enqueueMessage(msg, uptimeMillis);
-        }
-        else {
-            RuntimeException e = new RuntimeException(
-                this + " sendMessageAtTime() called with no mQueue");
-            Log.w("Looper", e.getMessage(), e);
-        }
-        return sent;
-    }
+	    boolean sent = false;
+	    MessageQueue queue = mQueue;
+	    if (queue != null) {
+	        msg.target = this;
+	        sent = queue.enqueueMessage(msg, uptimeMillis);
+	    }
+	    else {
+	        RuntimeException e = new RuntimeException(
+	            this + " sendMessageAtTime() called with no mQueue");
+	        Log.w("Looper", e.getMessage(), e);
+	    }
+	    return sent;
+	}
 
 就是把msg放到Looper的MessageQueue中，第1点解决，现在看第4点，怎样执行呢？
 
 看看官网给出的一段关于Handler的程序
 
 	 class LooperThread extends Thread {
-      public Handler mHandler;
-
-      public void run() {
-          Looper.prepare();
-
-          mHandler = new Handler() {
-              public void handleMessage(Message msg) {
-                  // process incoming messages here
-              }
-          };
-
-          Looper.loop();
-      }
+	  public Handler mHandler;
+	
+	  public void run() {
+	      Looper.prepare();
+	
+	      mHandler = new Handler() {
+	          public void handleMessage(Message msg) {
+	              // process incoming messages here
+	          }
+	      };
+	
+	      Looper.loop();
+	  }
   	}
 
 注意到最后一句`Looper.loop();`
 
 	/**
-     * Run the message queue in this thread. Be sure to call
-     * {@link #quit()} to end the loop.
-     */
-    public static void loop() {
-        Looper me = myLooper();
-        if (me == null) {
-            throw new RuntimeException("No Looper; Looper.prepare() wasn't called on this thread.");
-        }
-        MessageQueue queue = me.mQueue;   
-        ...
-        while (true) {
-            Message msg = queue.next(); // might block
-            if (msg != null) {
-                 ...
-                msg.target.dispatchMessage(msg);
+	 * Run the message queue in this thread. Be sure to call
+	 * {@link #quit()} to end the loop.
+	 */
+	public static void loop() {
+	    Looper me = myLooper();
+	    if (me == null) {
+	        throw new RuntimeException("No Looper; Looper.prepare() wasn't called on this thread.");
+	    }
+	    MessageQueue queue = me.mQueue;   
+	    ...
+	    while (true) {
+	        Message msg = queue.next(); // might block
+	        if (msg != null) {
+	             ...
+	            msg.target.dispatchMessage(msg);
  			    ...
                 msg.recycle();
             }
@@ -523,33 +523,33 @@ ThreadLocal这个类是关键，看看
 `msg.target.dispatchMessage(msg);`这句，msg.target是一个Handler
 
 	/**
-     * Handle system messages here.
-     */
-    public void dispatchMessage(Message msg) {
-        if (msg.callback != null) {
-            handleCallback(msg);
-        } else {
-            if (mCallback != null) {
-                if (mCallback.handleMessage(msg)) {
-                    return;
-                }
-            }
-            handleMessage(msg);
-        }
-    }
-
+	 * Handle system messages here.
+	 */
+	public void dispatchMessage(Message msg) {
+	    if (msg.callback != null) {
+	        handleCallback(msg);
+	    } else {
+	        if (mCallback != null) {
+	            if (mCallback.handleMessage(msg)) {
+	                return;
+	            }
+	        }
+	        handleMessage(msg);
+	    }
+	}
+	
 	 private final void handleCallback(Message message) {
-        message.callback.run();
-    }
-
+	    message.callback.run();
+	}
+	
 	//mCallback就是构造函数Handler(Callback callback)传入来的，没有传就没有了
 	public interface Callback {
-        public boolean handleMessage(Message msg);
-    }
+	    public boolean handleMessage(Message msg);
+	}
 
 
 最后才调用handleMessage(msg);就是一般我们会覆盖的方法，如：
-	
+​	
 	Handler handler = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
@@ -586,7 +586,7 @@ ThreadLocal这个类是关键，看看
 		public Handler getHandler(){
 			return myHandler;
 		}
-
+	
 		@Override
 		public synchronized void start() {
 			super.start();
@@ -618,3 +618,11 @@ ThreadLocal这个类是关键，看看
 不过Bolts上手有一点难度，但一旦上手，还是挺好用的。之前的Bolts的cancel是没有真正cancel到的，最新版要靠各位看看了。
 
 github地址：[go->](https://github.com/BoltsFramework/Bolts-Android)
+
+
+
+## C++ pthread
+
+https://casatwy.com/pthreadde-ge-chong-tong-bu-ji-zhi.html
+
+[pthread mutex](http://pubs.opengroup.org/onlinepubs/009695399/functions/pthread_mutex_lock.html)
